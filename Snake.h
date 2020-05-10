@@ -2,7 +2,8 @@
 #define SNAKE_H
 #include <vector>
 #include <iostream>
-
+namespace RSnakeGame
+{
 class Snake
 {
 public:
@@ -15,5 +16,5 @@ public:
 private:
     std::vector<int> m_body;
 };
-
+}
 #endif // SNAKE_H

@@ -6,5 +6,5 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-add_executable(RSnake main.cpp Snake.cpp)
+add_executable(RSnake main.cpp Snake.cpp Engine.cpp Board.cpp Fruits.cpp)
 
