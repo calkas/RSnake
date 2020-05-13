@@ -1,14 +1,13 @@
 #include <iostream>
+#include "Engine.h"
 
 using namespace std;
 
 int main()
 {
-    cout << "Hello World!" << endl;
 
-
-
-
+    RSnakeGame::Engine GameEngineObj;
+    GameEngineObj.GameLoop();
 
     return 0;
 }
