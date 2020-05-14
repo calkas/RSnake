@@ -18,7 +18,7 @@ public:
 
 
 private:
-    static const int WIDHT_GAMEBOARD_SIZE = 15;
+    static const int WIDHT_GAMEBOARD_SIZE = 40;
     static const int HEIGHT_GAMEBOARD_SIZE = 15;
 
 
@@ -38,7 +38,7 @@ private:
 
     Snake SnakeObj;
     Board GameBoardObj;
-    Fruit FruitObj {WIDHT_GAMEBOARD_SIZE, HEIGHT_GAMEBOARD_SIZE};
+    Fruit FruitObj {WIDHT_GAMEBOARD_SIZE - 2, HEIGHT_GAMEBOARD_SIZE - 2};
 
     bool isGameRunning;
 };

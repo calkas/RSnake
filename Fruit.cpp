@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#define R_GAME_DEBUG 1
+#define R_GAME_DEBUG 0
 
 namespace RSnakeGame
 {
@@ -51,8 +51,8 @@ void Fruit::Update()
     {
         return;
     }
-    m_pFruitShape->m_posX = rand() % m_MaxGenPosX;
-    m_pFruitShape->m_posY = rand() % m_MaxGenPosY;
+    m_pFruitShape->m_posX = rand() % m_MaxGenPosX + 1;
+    m_pFruitShape->m_posY = rand() % m_MaxGenPosY + 1;
 }
 
 void Fruit::Draw()

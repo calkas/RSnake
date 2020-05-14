@@ -2,7 +2,7 @@
 #include "AObjectShape.h"
 #include <iostream>
 
-#define R_GAME_DEBUG 1
+#define R_GAME_DEBUG 0
 
 namespace RSnakeGame
 {
@@ -44,6 +44,7 @@ bool Snake::AddPartOfBody(AObjectShape *pBodyElement)
 
 void Snake::Update(int posX, int posY)
 {
+    //FIX ME
 
 }
 

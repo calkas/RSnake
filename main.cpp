@@ -9,5 +9,8 @@ int main()
     RSnakeGame::Engine GameEngineObj;
     GameEngineObj.GameLoop();
 
+
+    cout<<"\n\n\n"<<endl;
+
     return 0;
 }

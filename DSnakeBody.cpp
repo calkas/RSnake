@@ -18,6 +18,7 @@ void DSnakeBody::Draw()
     coord.X = m_posX;
     coord.Y = m_posY;
     SetConsoleCursorPosition( GetStdHandle( STD_OUTPUT_HANDLE ), coord );
-    printf("*");
+    std::cout<<"*"<<std::flush;
+    //printf("*");
 }
 }

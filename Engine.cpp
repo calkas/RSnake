@@ -3,6 +3,7 @@
 #include "DBoardWall.h"
 #include "DSnakeBody.h"
 #include "DFruit.h"
+#include <windows.h>
 
 #include <iostream>
 
@@ -18,13 +19,19 @@ Engine::Engine()
 void Engine::GameLoop()
 {
     std::cout<< "..::Start RSnake GameLoop()::.." <<std::endl;
-    Input();
-    //Update();
-    Draw();
+    while (isGameRunning)
+    {
+        Input();
+        //Update();
+        Draw();
+        Sleep(1000);
+    }
 }
 
 void Engine::Input()
 {
+    SnakeObj.Update(SnakeObj.GetHeadSnakeX(),SnakeObj.GetHeadSnakeY() -1);
+
 
 }
 
@@ -36,6 +43,7 @@ void Engine::Update(int x, int y)
 
 void Engine::Draw()
 {
+    system("cls");
     GameBoardObj.Draw();
     SnakeObj.Draw();
     FruitObj.Draw();
@@ -51,8 +59,9 @@ void Engine::Init()
 
 void Engine::AddBodyShapeForBoard()
 {
+#if R_GAME_DEBUG == 1
     std::cout<<"Create GameBoard "<<WIDHT_GAMEBOARD_SIZE<<"x"<<HEIGHT_GAMEBOARD_SIZE<<std::endl;
-
+#endif
     for(int lineId = 0; lineId < HEIGHT_GAMEBOARD_SIZE; lineId++)
     {
             if(lineId == 0 || lineId == (HEIGHT_GAMEBOARD_SIZE - 1))
@@ -87,10 +96,8 @@ void Engine::AddBodyShapeForSnake()
 
 void Engine::AddBodyShapeForFruit()
 {
-    int startPosX =  WIDHT_GAMEBOARD_SIZE - 2;
-    int startPosY =  HEIGHT_GAMEBOARD_SIZE - 2;
-
-    FruitObj.AddFruitShape(CreateFruitShape(startPosX, startPosY));
+    FruitObj.AddFruitShape(CreateFruitShape(1,1));
+    FruitObj.Update();
 }
 
 AObjectShape *Engine::CreateWallShape(int x, int y)
