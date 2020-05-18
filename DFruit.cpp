@@ -17,10 +17,8 @@ void DFruit::Draw()
     COORD coord;
     coord.X = m_posX;
     coord.Y = m_posY;
-    SetConsoleCursorPosition( GetStdHandle( STD_OUTPUT_HANDLE ), coord );
-
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord );
     std::cout<<"@"<<std::flush;
-    //printf("@");
 }
 
 }

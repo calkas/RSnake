@@ -9,7 +9,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #Bring the headers into the project
 #include_directories(include)
 
-set(SOURCES main.cpp Snake.cpp Engine.cpp Board.cpp Fruit.cpp DBoardWall.cpp DSnakeBody.cpp DFruit.cpp)
+set(SOURCES
+    main.cpp
+    Snake.cpp
+    Engine.cpp
+    Board.cpp
+    Fruit.cpp
+    DBoardWall.cpp
+    DSnakeBody.cpp
+    DFruit.cpp
+    InputControl.cpp)
 
 #However, the file(GLOB...) allows for wildcard additions:
 #file(GLOB SOURCES "src/*.cpp")

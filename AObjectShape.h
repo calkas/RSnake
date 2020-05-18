@@ -3,9 +3,8 @@
 
 namespace RSnakeGame
 {
-class AObjectShape
+struct AObjectShape
 {
-public:
     virtual ~AObjectShape() {}
     virtual void Draw() = 0;
     int m_posX;

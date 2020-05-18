@@ -20,6 +20,7 @@ private:
     AObjectShape *m_pFruitShape;
     int m_MaxGenPosX;
     int m_MaxGenPosY;
+    bool m_SnakeAteFruitFlag;
 
     static bool SEEDED_FOR_SRAND;
 };

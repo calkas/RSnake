@@ -3,8 +3,8 @@
 #include "DBoardWall.h"
 #include "DSnakeBody.h"
 #include "DFruit.h"
+#include "InputControl.h"
 #include <windows.h>
-
 #include <iostream>
 
 #define R_GAME_DEBUG 0
@@ -16,28 +16,58 @@ Engine::Engine()
     Init();
 }
 
+Engine::~Engine()
+{
+    delete m_pControl;
+}
+
 void Engine::GameLoop()
 {
     std::cout<< "..::Start RSnake GameLoop()::.." <<std::endl;
     while (isGameRunning)
     {
         Input();
-        //Update();
+        HandleObjectCollision();
+        if(!isGameRunning)
+        {
+            GameOverTitle();
+            break;
+        }
+        Update();
         Draw();
-        Sleep(1000);
+        Sleep(GAME_SPEED);
     }
+
+
 }
 
 void Engine::Input()
 {
-    SnakeObj.Update(SnakeObj.GetHeadSnakeX(),SnakeObj.GetHeadSnakeY() -1);
-
+    if(m_pControl->isUpPressed())
+    {
+        m_SnakeDir = Snake::SnakeDirection::MOVE_SNAKE_UP;
+    }
+    else if(m_pControl->isDownPressed())
+    {
+        m_SnakeDir = Snake::SnakeDirection::MOVE_SNAKE_DOWN;
+    }
+    else if(m_pControl->isLeftPressed())
+    {
+        m_SnakeDir = Snake::SnakeDirection::MOVE_SNAKE_LEFT;
+    }
+    else if(m_pControl->isRightPressed())
+    {
+        m_SnakeDir = Snake::SnakeDirection::MOVE_SNAKE_RIGHT;
+    }
+    else
+    {
+    }
 
 }
 
-void Engine::Update(int x, int y)
+void Engine::Update()
 {
-    SnakeObj.Update(x,y);
+    SnakeObj.Update(m_SnakeDir);
     FruitObj.Update();
 }
 
@@ -49,8 +79,34 @@ void Engine::Draw()
     FruitObj.Draw();
 }
 
+void Engine::HandleObjectCollision()
+{
+    const bool isGameEndCollision = GameBoardObj.isCollision(SnakeObj.GetHeadSnakeX(), SnakeObj.GetHeadSnakeY()) || SnakeObj.isCollision();
+
+    if(isGameEndCollision)
+    {
+        isGameRunning = false;
+    }
+    else if (FruitObj.isCollision(SnakeObj.GetHeadSnakeX(), SnakeObj.GetHeadSnakeY()))
+    {
+        //TODO
+        SnakeObj.AddPartOfBody(CreateSnakeBodyShape(SnakeObj.GetHeadSnakeX(), SnakeObj.GetHeadSnakeY()));
+    }
+    else
+    {
+
+    }
+}
+
+void Engine::GameOverTitle()
+{
+    system("cls");
+    std::cout << "GAME OVER" <<std::endl;
+}
+
 void Engine::Init()
 {
+    m_pControl = new InputControl();
     AddBodyShapeForBoard();
     AddBodyShapeForSnake();
     AddBodyShapeForFruit();
@@ -77,18 +133,12 @@ void Engine::AddBodyShapeForBoard()
                  GameBoardObj.AddBoardWall(CreateWallShape(WIDHT_GAMEBOARD_SIZE - 1 ,lineId));
             }
     }
-#if R_GAME_DEBUG == 1
-        //const int expNumberOfWallsToCreate = (X_GAMEBOARD_SIZE * Y_GAMEBOARD_SIZE) - ((X_GAMEBOARD_SIZE - 2) * (Y_GAMEBOARD_SIZE - 2));
-        //std::cout << "Expected number of Board Objects: "<<expNumberOfWallsToCreate<<std::endl;
-        std::cout << "Actual number of Board Objects: "<<GameBoardObj.GetNumberOfWalls()<<std::endl;
-#endif
 }
 
 void Engine::AddBodyShapeForSnake()
 {
-    int startPosX =  static_cast<int>( WIDHT_GAMEBOARD_SIZE / 2);
-    int startPosY =  static_cast<int>( HEIGHT_GAMEBOARD_SIZE / 2);
-
+    int startPosX = static_cast<int>( WIDHT_GAMEBOARD_SIZE / 2);
+    int startPosY = static_cast<int>( HEIGHT_GAMEBOARD_SIZE / 2);
     SnakeObj.AddPartOfBody(CreateSnakeBodyShape(startPosX, startPosY));
     SnakeObj.AddPartOfBody(CreateSnakeBodyShape(startPosX + 1, startPosY));
     SnakeObj.AddPartOfBody(CreateSnakeBodyShape(startPosX + 2, startPosY));

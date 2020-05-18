@@ -9,13 +9,19 @@ class AObjectShape;
 class Snake
 {
 public:
+    enum SnakeDirection{
+        MOVE_SNAKE_UP,
+        MOVE_SNAKE_DOWN,
+        MOVE_SNAKE_LEFT,
+        MOVE_SNAKE_RIGHT
+    };
     Snake();
     ~Snake();
 
     bool AddPartOfBody(AObjectShape *pBodyElement);
-    void Update(int posX, int posY);
+    void Update(SnakeDirection snakeDir);
     void Draw();
-    bool isCollision(int x, int y);
+    bool isCollision();
 
     int GetHeadSnakeX() const;
     int GetHeadSnakeY() const;
