@@ -1,16 +1,16 @@
 #include "Board.h"
 #include "AObjectShape.h"
+#include "DBoardWall.h"
 #include <iostream>
 
 #define R_GAME_DEBUG 0
 
 namespace RSnakeGame
 {
-Board::Board()
+
+Board::Board(int height, int widht)
 {
-#if R_GAME_DEBUG == 1
-    std::cout <<"BoardObj created !" <<std::endl;
-#endif
+    CreateGameBoard(height,widht);
 }
 
 Board::~Board()
@@ -30,15 +30,23 @@ Board::~Board()
 #endif
 }
 
-bool Board::AddBoardWall(AObjectShape *pWall)
+void Board::CreateGameBoard(int height, int widht)
 {
-    if(pWall == nullptr)
+    for(int lineId = 0; lineId < height; lineId++)
     {
-        return false;
+            if(lineId == 0 || lineId == (height - 1))
+            {
+                for(int columnId = 0; columnId < widht; columnId++)
+                {
+                    CreateWall(columnId,lineId);
+                }
+            }
+            else
+            {
+                 CreateWall(0,lineId);
+                 CreateWall(widht - 1 ,lineId);
+            }
     }
-
-    m_VecOfBoardWalls.push_back(pWall);
-    return true;
 }
 
 void Board::Draw()
@@ -70,6 +78,12 @@ bool Board::isCollision(int x, int y)
         }
     }
     return false;
+}
+
+void Board::CreateWall(int x, int y)
+{
+    AObjectShape *pWallObj = new DBoardWall(x,y);
+    m_VecOfBoardWalls.push_back(pWallObj);
 }
 
 }

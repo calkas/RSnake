@@ -31,23 +31,12 @@ private:
     void HandleObjectCollision();
     void GameOverTitle();
 
-
-    void AddBodyShapeForBoard();
-    void AddBodyShapeForSnake();
-    void AddBodyShapeForFruit();
-
-    AObjectShape *CreateWallShape(int x, int y);
-    AObjectShape *CreateSnakeBodyShape(int x, int y);
-    AObjectShape *CreateFruitShape(int x, int y);
-
-    Snake SnakeObj;
-    Board GameBoardObj;
+    Snake SnakeObj {WIDHT_GAMEBOARD_SIZE / 2, HEIGHT_GAMEBOARD_SIZE / 2};
+    Board GameBoardObj {HEIGHT_GAMEBOARD_SIZE, WIDHT_GAMEBOARD_SIZE};
     Fruit FruitObj {WIDHT_GAMEBOARD_SIZE - 2, HEIGHT_GAMEBOARD_SIZE - 2};
 
     IControl *m_pControl;
     bool isGameRunning;
-
-    Snake::SnakeDirection m_SnakeDir;
 };
 
 }

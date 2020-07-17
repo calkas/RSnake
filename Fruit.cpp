@@ -1,5 +1,6 @@
 #include "Fruit.h"
 #include "AObjectShape.h"
+#include "DFruit.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -14,6 +15,8 @@ bool Fruit::SEEDED_FOR_SRAND = false;
 Fruit::Fruit(int maxGenPosX, int maxGenPosY) : m_MaxGenPosX(maxGenPosX),
     m_MaxGenPosY(maxGenPosY), m_SnakeAteFruitFlag(false)
 {
+
+    CreateFruit(1,1);
     if(!SEEDED_FOR_SRAND)
     {
         srand(time(NULL));
@@ -22,6 +25,8 @@ Fruit::Fruit(int maxGenPosX, int maxGenPosY) : m_MaxGenPosX(maxGenPosX),
 #if R_GAME_DEBUG == 1
     std::cout << "FruitObj created !" <<std::endl;
 #endif
+
+    Update();
 }
 
 Fruit::~Fruit()
@@ -32,16 +37,6 @@ Fruit::~Fruit()
     std::cout << "~Fruit()" <<std::endl;
     std::cout << "FruitObj deleted !" <<std::endl;
 #endif
-}
-
-bool Fruit::AddFruitShape(AObjectShape *pFruitShape)
-{
-    if(pFruitShape == nullptr)
-    {
-        return false;
-    }
-    m_pFruitShape = pFruitShape;
-    return true;
 }
 
 void Fruit::Update()
@@ -79,5 +74,11 @@ bool Fruit::isCollision(int x, int y)
         return true;
     }
     return false;
+}
+
+void Fruit::CreateFruit(int x, int y)
+{
+    m_pFruitShape = new DFruit(x,y);
+
 }
 }

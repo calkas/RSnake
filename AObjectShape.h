@@ -5,7 +5,7 @@ namespace RSnakeGame
 {
 struct AObjectShape
 {
-    virtual ~AObjectShape() {}
+    virtual ~AObjectShape() = default;
     virtual void Draw() = 0;
     int m_posX;
     int m_posY;

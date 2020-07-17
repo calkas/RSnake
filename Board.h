@@ -8,17 +8,19 @@ class AObjectShape;
 class Board
 {
 public:
-    Board();
+    Board() = default;
+    Board(int height, int widht);
     ~Board();
 
-    bool AddBoardWall(AObjectShape *pWall);
+
     void Draw();
-
     void printAllCoord();
-
     bool isCollision(int x, int y);
 
 private:
+
+    void CreateGameBoard(int height, int widht);
+    void CreateWall(int x, int y);
     std::vector<AObjectShape *> m_VecOfBoardWalls;
 };
 }

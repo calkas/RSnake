@@ -13,21 +13,31 @@ public:
         MOVE_SNAKE_UP,
         MOVE_SNAKE_DOWN,
         MOVE_SNAKE_LEFT,
-        MOVE_SNAKE_RIGHT
+        MOVE_SNAKE_RIGHT,
+        MOVE_UNKNOWN,
     };
-    Snake();
+    Snake() = default;
+    Snake(int startPosX, int startPosY);
     ~Snake();
 
-    bool AddPartOfBody(AObjectShape *pBodyElement);
-    void Update(SnakeDirection snakeDir);
+    void AddPartOfSnakeBody(int posX, int posY);
+
+
+    void Update();
     void Draw();
     bool isCollision();
 
     int GetHeadSnakeX() const;
     int GetHeadSnakeY() const;
 
+
+    void MoveSnake(SnakeDirection snakeDir);
+
 private:
+    void CreateStartSnakeBodyShape(int startPosX, int startPosY);
+
     std::vector<AObjectShape *> m_VecOfSnakeBody;
+    SnakeDirection m_SnakeDir;
 };
 }
 #endif // SNAKE_H

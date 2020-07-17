@@ -1,16 +1,16 @@
 #include "Snake.h"
 #include "AObjectShape.h"
+#include "DSnakeBody.h"
 #include <iostream>
 
 #define R_GAME_DEBUG 0
 
 namespace RSnakeGame
 {
-Snake::Snake()
+
+Snake::Snake(int startPosX, int startPosY)
 {
-#if R_GAME_DEBUG == 1
-    std::cout << "SnakeObj created !" <<std::endl;
-#endif
+    CreateStartSnakeBodyShape(startPosX, startPosY);
 }
 
 Snake::~Snake()
@@ -32,23 +32,19 @@ Snake::~Snake()
 #endif
 }
 
-bool Snake::AddPartOfBody(AObjectShape *pBodyElement)
+void Snake::AddPartOfSnakeBody(int posX, int posY)
 {
-    if(pBodyElement == nullptr)
-    {
-        return false;
-    }
-    m_VecOfSnakeBody.push_back(pBodyElement);
-    return true;
+    AObjectShape *pSnakeBodyObj = new DSnakeBody(posX,posY);
+    m_VecOfSnakeBody.push_back(pSnakeBodyObj);
 }
 
-void Snake::Update(SnakeDirection snakeDir)
+void Snake::Update()
 {
     static bool startFlag = true;
     int nX = GetHeadSnakeX();
     int nY = GetHeadSnakeY();
 
-    switch (snakeDir)
+    switch (m_SnakeDir)
     {
         case MOVE_SNAKE_UP:
             m_VecOfSnakeBody[0]->m_posY -= 1;
@@ -101,7 +97,7 @@ void Snake::Draw()
 
 bool Snake::isCollision()
 {
-    for(int i = 1; i<m_VecOfSnakeBody.size(); i++)
+    for(int i = 2; i<m_VecOfSnakeBody.size(); i++)
     {
         if((m_VecOfSnakeBody[i]->m_posX == m_VecOfSnakeBody[0]->m_posX) && (m_VecOfSnakeBody[i]->m_posY == m_VecOfSnakeBody[0]->m_posY))
         {
@@ -119,5 +115,18 @@ int Snake::GetHeadSnakeX() const
 int Snake::GetHeadSnakeY() const
 {
     return m_VecOfSnakeBody[0]->m_posY;
+}
+
+void Snake::MoveSnake(Snake::SnakeDirection snakeDir)
+{
+    m_SnakeDir = snakeDir;
+}
+
+void Snake::CreateStartSnakeBodyShape(int startPosX, int startPosY)
+{
+    AddPartOfSnakeBody(startPosX, startPosY);
+    AddPartOfSnakeBody(startPosX + 1, startPosY);
+    AddPartOfSnakeBody(startPosX + 2, startPosY);
+
 }
 }
