@@ -1,6 +1,6 @@
 #include "Board.h"
 #include "AObjectShape.h"
-#include "DBoardWall.h"
+#include "DBodyBuilder.h"
 #include <iostream>
 
 #define R_GAME_DEBUG 0
@@ -82,7 +82,7 @@ bool Board::isCollision(int x, int y)
 
 void Board::CreateWall(int x, int y)
 {
-    AObjectShape *pWallObj = new DBoardWall(x,y);
+    AObjectShape *pWallObj = CreateBoardWallShape(x, y);
     m_VecOfBoardWalls.push_back(pWallObj);
 }
 

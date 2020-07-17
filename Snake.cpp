@@ -1,6 +1,6 @@
 #include "Snake.h"
 #include "AObjectShape.h"
-#include "DSnakeBody.h"
+#include "DBodyBuilder.h"
 #include <iostream>
 
 #define R_GAME_DEBUG 0
@@ -34,7 +34,7 @@ Snake::~Snake()
 
 void Snake::AddPartOfSnakeBody(int posX, int posY)
 {
-    AObjectShape *pSnakeBodyObj = new DSnakeBody(posX,posY);
+    AObjectShape *pSnakeBodyObj = CreateSnakeBodyShape(posX, posY);
     m_VecOfSnakeBody.push_back(pSnakeBodyObj);
 }
 
@@ -127,6 +127,5 @@ void Snake::CreateStartSnakeBodyShape(int startPosX, int startPosY)
     AddPartOfSnakeBody(startPosX, startPosY);
     AddPartOfSnakeBody(startPosX + 1, startPosY);
     AddPartOfSnakeBody(startPosX + 2, startPosY);
-
 }
 }

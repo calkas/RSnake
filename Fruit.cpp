@@ -1,6 +1,6 @@
 #include "Fruit.h"
 #include "AObjectShape.h"
-#include "DFruit.h"
+#include "DBodyBuilder.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -78,7 +78,6 @@ bool Fruit::isCollision(int x, int y)
 
 void Fruit::CreateFruit(int x, int y)
 {
-    m_pFruitShape = new DFruit(x,y);
-
+    m_pFruitShape = CreateFruitBodyShape(x, y);
 }
 }

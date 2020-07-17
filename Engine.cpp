@@ -1,29 +1,22 @@
 #include "Engine.h"
-#include "AObjectShape.h"
-#include "DBoardWall.h"
-#include "DSnakeBody.h"
-#include "DFruit.h"
-#include "InputControl.h"
+#include "Board.h"
+#include "Snake.h"
+#include "Fruit.h"
+#include "IControl.h"
 #include <windows.h>
 #include <iostream>
 
-#define R_GAME_DEBUG 0
-
 namespace RSnakeGame
 {
-Engine::Engine()
-{
-    Init();
-}
 
-Engine::~Engine()
+Engine::Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, IControl *pControl) :
+    m_pGameBoardObj(pBoard), m_pSnakeObj(pSnake), m_pFruitObj(pFruit), m_pControl(pControl)
 {
-    delete m_pControl;
+    isGameRunning = true;
 }
 
 void Engine::GameLoop()
 {
-    std::cout<< "..::Start RSnake GameLoop()::.." <<std::endl;
     while (isGameRunning)
     {
         Input();
@@ -33,6 +26,7 @@ void Engine::GameLoop()
             GameOverTitle();
             break;
         }
+
         Update();
         Draw();
         Sleep(GAME_SPEED);
@@ -43,52 +37,54 @@ void Engine::Input()
 {
     if(m_pControl->isUpPressed())
     {
-        SnakeObj.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_UP);
+        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_UP);
     }
     else if(m_pControl->isDownPressed())
     {
-        SnakeObj.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_DOWN);
+        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_DOWN);
     }
     else if(m_pControl->isLeftPressed())
     {
-        SnakeObj.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_LEFT);
+        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_LEFT);
 
     }
     else if(m_pControl->isRightPressed())
     {
-        SnakeObj.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_RIGHT);
+        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_RIGHT);
     }
     else
     {
+        //Do Nothing
     }
 
 }
 
 void Engine::Update()
 {
-    FruitObj.Update();
-    SnakeObj.Update();
+    m_pFruitObj->Update();
+    m_pSnakeObj->Update();
 }
 
 void Engine::Draw()
 {
     system("cls");
-    GameBoardObj.Draw();
-    SnakeObj.Draw();
-    FruitObj.Draw();
+    m_pGameBoardObj->Draw();
+    m_pSnakeObj->Draw();
+    m_pFruitObj->Draw();
 }
 
 void Engine::HandleObjectCollision()
 {
-    const bool isGameEndCollision = GameBoardObj.isCollision(SnakeObj.GetHeadSnakeX(), SnakeObj.GetHeadSnakeY()) || SnakeObj.isCollision();
+    const bool isGameEndCollision = m_pGameBoardObj->isCollision(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY()) ||
+            m_pSnakeObj->isCollision();
 
     if(isGameEndCollision)
     {
         isGameRunning = false;
     }
-    else if (FruitObj.isCollision(SnakeObj.GetHeadSnakeX(), SnakeObj.GetHeadSnakeY()))
+    else if (m_pFruitObj->isCollision(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY()))
     {
-        SnakeObj.AddPartOfSnakeBody(SnakeObj.GetHeadSnakeX(), SnakeObj.GetHeadSnakeY());
+        m_pSnakeObj->AddPartOfSnakeBody(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY());
     }
     else
     {
@@ -99,13 +95,6 @@ void Engine::HandleObjectCollision()
 void Engine::GameOverTitle()
 {
     system("cls");
-    std::cout << "GAME OVER" <<std::endl;
+    std::cout<< "..:: GAME OVER ::.." <<std::endl;
 }
-
-void Engine::Init()
-{
-    m_pControl = new InputControl();
-    isGameRunning = true;
-}
-
 }

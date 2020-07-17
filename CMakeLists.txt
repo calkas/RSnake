@@ -18,7 +18,8 @@ set(SOURCES
     DBoardWall.cpp
     DSnakeBody.cpp
     DFruit.cpp
-    InputControl.cpp)
+    InputControl.cpp
+    DBodyBuilder.cpp)
 
 #However, the file(GLOB...) allows for wildcard additions:
 #file(GLOB SOURCES "src/*.cpp")
