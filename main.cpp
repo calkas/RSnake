@@ -1,10 +1,10 @@
 #include <iostream>
-#include "Engine.h"
-#include "Snake.h"
-#include "Board.h"
-#include "Fruit.h"
-#include "InputControl.h"
-#include "IControl.h"
+#include "Engine/Engine.h"
+#include "GameObjects/Snake.h"
+#include "GameObjects/Board.h"
+#include "GameObjects/Fruit.h"
+#include "Control/InputControl.h"
+#include "Control/IControl.h"
 
 using namespace std;
 
