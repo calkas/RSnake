@@ -3,8 +3,6 @@
 #include "DBodyBuilder.h"
 #include <iostream>
 
-#define R_GAME_DEBUG 0
-
 namespace RSnakeGame
 {
 
@@ -15,19 +13,12 @@ Board::Board(int height, int widht)
 
 Board::~Board()
 {
-#if R_GAME_DEBUG == 1
-    std::cout << "~Board()"<<std::endl;
-    std::cout << "Number of Board walls to delete: "<<m_VecOfBoardWalls.size()<<std::endl;
-#endif
     for(auto &pWallElement : m_VecOfBoardWalls)
     {
         delete pWallElement;
         pWallElement = nullptr;
     }
     m_VecOfBoardWalls.clear();
-#if R_GAME_DEBUG == 1
-    std::cout << "BoardObj deleted !" <<std::endl;
-#endif
 }
 
 void Board::CreateGameBoard(int height, int widht)
@@ -64,7 +55,6 @@ void Board::printAllCoord()
     {
         std::cout<<i<<")"<< pWallElement->m_posX<< "," <<pWallElement->m_posY <<std::endl;
         ++i;
-
     }
 }
 

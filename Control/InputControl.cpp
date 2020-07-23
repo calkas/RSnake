@@ -1,7 +1,9 @@
 #include "InputControl.h"
 #include <windows.h>
+
 namespace RSnakeGame
 {
+
 bool InputControl::isUpPressed()
 {
     return isKeyPressed(VK_UP);
@@ -26,4 +28,5 @@ bool InputControl::isKeyPressed(int key)
 {
     return (GetAsyncKeyState(key) & 0x8000 != 0);
 }
+
 }

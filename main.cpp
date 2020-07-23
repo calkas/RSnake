@@ -18,7 +18,10 @@ int main()
     RSnakeGame::Fruit FruitObj {WIDHT_GAMEBOARD_SIZE - 2, HEIGHT_GAMEBOARD_SIZE - 2};
     RSnakeGame::IControl *pControl = new RSnakeGame::InputControl();
 
-    RSnakeGame::Engine GameEngineObj(&GameBoardObj, &SnakeObj, &FruitObj, pControl);
+    RSnakeGame::Engine GameEngineObj(&GameBoardObj,
+                                     &SnakeObj,
+                                     &FruitObj,
+                                     pControl);
     GameEngineObj.GameLoop();
 
     delete pControl;

@@ -9,7 +9,7 @@ class AObjectShape;
 class Snake
 {
 public:
-    enum SnakeDirection{
+    enum class SnakeDirection{
         MOVE_SNAKE_UP,
         MOVE_SNAKE_DOWN,
         MOVE_SNAKE_LEFT,
@@ -32,6 +32,7 @@ private:
     void CreateStartSnakeBodyShape(int startPosX, int startPosY);
     std::vector<AObjectShape *> m_VecOfSnakeBody;
     SnakeDirection m_SnakeDir;
+    bool startWaitFlag;
 };
 }
 #endif // SNAKE_H

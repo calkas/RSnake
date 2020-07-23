@@ -3,22 +3,16 @@
 #include "DBodyBuilder.h"
 #include <iostream>
 
-#define R_GAME_DEBUG 0
-
 namespace RSnakeGame
 {
 
-Snake::Snake(int startPosX, int startPosY)
+Snake::Snake(int startPosX, int startPosY) : m_SnakeDir(SnakeDirection::MOVE_UNKNOWN), startWaitFlag(true)
 {
     CreateStartSnakeBodyShape(startPosX, startPosY);
 }
 
 Snake::~Snake()
 {
-#if R_GAME_DEBUG == 1
-    std::cout << "~Snake()"<<std::endl;
-    std::cout << "Number of part of bodies: "<<m_VecOfSnakeBody.size()<<std::endl;
-#endif
     for(auto &pBodyElement : m_VecOfSnakeBody)
     {
         delete pBodyElement;
@@ -26,10 +20,6 @@ Snake::~Snake()
     }
 
     m_VecOfSnakeBody.clear();
-
-#if R_GAME_DEBUG == 1
-    std::cout << "SnakeObj deleted !" <<std::endl;
-#endif
 }
 
 void Snake::AddPartOfSnakeBody(int posX, int posY)
@@ -40,33 +30,32 @@ void Snake::AddPartOfSnakeBody(int posX, int posY)
 
 void Snake::Update()
 {
-    static bool startFlag = true;
     int nX = GetHeadSnakeX();
     int nY = GetHeadSnakeY();
 
     switch (m_SnakeDir)
     {
-        case MOVE_SNAKE_UP:
+        case SnakeDirection::MOVE_SNAKE_UP:
             m_VecOfSnakeBody[0]->m_posY -= 1;
-            startFlag = false;
+            startWaitFlag = false;
             break;
-        case MOVE_SNAKE_DOWN:
+        case SnakeDirection::MOVE_SNAKE_DOWN:
             m_VecOfSnakeBody[0]->m_posY += 1;
-            startFlag = false;
+            startWaitFlag = false;
             break;
-        case MOVE_SNAKE_LEFT:
+        case SnakeDirection::MOVE_SNAKE_LEFT:
             m_VecOfSnakeBody[0]->m_posX -= 1;
-            startFlag = false;
+            startWaitFlag = false;
             break;
-        case MOVE_SNAKE_RIGHT:
+        case SnakeDirection::MOVE_SNAKE_RIGHT:
             m_VecOfSnakeBody[0]->m_posX += 1;
-            startFlag = false;
+            startWaitFlag = false;
             break;
         default:
             break;
     }
 
-    if(startFlag)
+    if(startWaitFlag)
     {
         return;
     }

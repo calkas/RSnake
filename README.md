@@ -2,44 +2,39 @@
 
 Simple game in C++ base on historical "Snake"
 
+![image info](./RSnake_gameScreen.png)
+
+
+### 1.1 Class Diagram
+
+![image info](./RSnake_classDiagram.png)
+
 
 ```plantuml
 @startuml
 
+hide empty attributes
+hide empty methods
 title RSnake Game - Class Diagram
 
 class Engine {
-  +void start()
-  +void input()
-  +void update()
-  +void draw()
+  +Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, IControl *pControl)
+  +void GameLoop()
 }
 
 class RSnake {
   +void Update()
   +void Draw()
+  +void AddPartOfSnakeBody()
   +bool isCollision()
+  +int GetHeadSnakeX()
+  +int GetHeadSnakeY()
+  +void MoveSnake()
   -vector<AObjectShape *> m_VecOfSnakeBody
 }
 
-abstract AObjectShape {
-  + void Draw()
-  - m_posX :int
-  - m_posY :int
-
-}
-
-interface IControl{
-  +void up()
-  +void down()
-  +void left()
-  +void right()
-}
-
-
 class Board {
  +void Draw()
- +void Update()
  +bool isCollision()
  -vector<AObjectShape *> m_VecOfBoardWalls
 }
@@ -51,34 +46,55 @@ class Fruit {
  -AObjectShape *m_pFruitShape
 }
 
+interface IControl{
+  +bool isUpPressed()
+  +bool isDownPressed()
+  +bool isLeftPressed()
+  +bool isRightPressed()
+}
 
-class DBoardWall
-class DSnakeBody
-class DFruit
+class InputControl {
+}
 
-DFruit --|> AObjectShape
-DBoardWall --|> AObjectShape
-DSnakeBody --|> AObjectShape
+abstract AObjectShape {
+  + void Draw()
+  - m_posX :int
+  - m_posY :int
 
+}
 
+class DBoardWall {
+}
+class DSnakeBody {
+}
+class DFruit {
+}
 
-Engine *-- RSnake
-Engine *-- Board
-Engine *-- Fruit
+InputControl --|> IControl
+
+AObjectShape <|-down- DSnakeBody
+AObjectShape <|-down- DBoardWall
+AObjectShape <|-down- DFruit
+
+Engine --> RSnake
+Engine --> Board
+Engine --> Fruit
 Engine -up-> IControl
 
-Engine --> DFruit
-Engine --> DBoardWall
-Engine --> DSnakeBody
-
 RSnake o-- AObjectShape
-Board o-- AObjectShape
-Fruit o-- AObjectShape
-
-
+Board  o-- AObjectShape
+Fruit  o-- AObjectShape
 
 @enduml
 ```
 
-![image info](./RSnake_classDiagram.png)
+### 1.2 Building on Windows with CMake and MinGW
+
+Execute the following commands:
+
+> mkdir build
+cd build
+cmake .. -G "MinGW Makefiles"
+mingw32-make
+
 
