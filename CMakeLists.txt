@@ -30,7 +30,8 @@ set(SOURCES
     Engine/Engine.cpp
     GameObjects/Snake.cpp
     GameObjects/Board.cpp
-    GameObjects/Fruit.cpp)
+    GameObjects/Fruit.cpp
+    GameObjects/ScoreBoard.cpp)
 
 #However, the file(GLOB...) allows for wildcard additions:
 #file(GLOB SOURCES "src/*.cpp")

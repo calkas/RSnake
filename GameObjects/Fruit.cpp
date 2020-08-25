@@ -43,7 +43,6 @@ void Fruit::Update()
         m_SnakeAteFruitFlag = false;
         firstTime = false;
     }
-
 }
 
 void Fruit::Draw()

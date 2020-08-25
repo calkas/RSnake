@@ -6,7 +6,7 @@
 namespace RSnakeGame
 {
 
-Snake::Snake(int startPosX, int startPosY) : m_SnakeDir(SnakeDirection::MOVE_UNKNOWN), startWaitFlag(true)
+Snake::Snake(int startPosX, int startPosY) : m_SnakeDir(SnakeDirection::MOVE_UNKNOWN), m_StartWaitFlag(true)
 {
     CreateStartSnakeBodyShape(startPosX, startPosY);
 }
@@ -37,25 +37,25 @@ void Snake::Update()
     {
         case SnakeDirection::MOVE_SNAKE_UP:
             m_VecOfSnakeBody[0]->m_posY -= 1;
-            startWaitFlag = false;
+            m_StartWaitFlag = false;
             break;
         case SnakeDirection::MOVE_SNAKE_DOWN:
             m_VecOfSnakeBody[0]->m_posY += 1;
-            startWaitFlag = false;
+            m_StartWaitFlag = false;
             break;
         case SnakeDirection::MOVE_SNAKE_LEFT:
             m_VecOfSnakeBody[0]->m_posX -= 1;
-            startWaitFlag = false;
+            m_StartWaitFlag = false;
             break;
         case SnakeDirection::MOVE_SNAKE_RIGHT:
             m_VecOfSnakeBody[0]->m_posX += 1;
-            startWaitFlag = false;
+            m_StartWaitFlag = false;
             break;
         default:
             break;
     }
 
-    if(startWaitFlag)
+    if(m_StartWaitFlag)
     {
         return;
     }

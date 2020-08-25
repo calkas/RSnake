@@ -1,7 +1,6 @@
 #ifndef DSNAKEBODY_H
 #define DSNAKEBODY_H
 #include "AObjectShape.h"
-
 namespace RSnakeGame
 {
 

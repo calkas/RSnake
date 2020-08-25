@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "Snake.h"
 #include "Fruit.h"
+#include "ScoreBoard.h"
 #include "IControl.h"
 #include <windows.h>
 #include <iostream>
@@ -9,19 +10,19 @@
 namespace RSnakeGame
 {
 
-Engine::Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, IControl *pControl) :
-    m_pGameBoardObj(pBoard), m_pSnakeObj(pSnake), m_pFruitObj(pFruit), m_pControl(pControl)
+Engine::Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, ScoreBoard *pScoreBoard, IControl *pControl) :
+    m_pGameBoardObj(pBoard), m_pSnakeObj(pSnake), m_pFruitObj(pFruit), m_pScoreBoard(pScoreBoard), m_pControl(pControl)
 {
-    isGameRunning = true;
+    m_IsGameRunning = true;
 }
 
 void Engine::GameLoop()
 {
-    while (isGameRunning)
+    while (m_IsGameRunning)
     {
         Input();
         HandleObjectCollision();
-        if(!isGameRunning)
+        if(!m_IsGameRunning)
         {
             GameOverTitle();
             break;
@@ -71,6 +72,7 @@ void Engine::Draw()
     m_pGameBoardObj->Draw();
     m_pSnakeObj->Draw();
     m_pFruitObj->Draw();
+    m_pScoreBoard->Show();
 }
 
 void Engine::HandleObjectCollision()
@@ -80,11 +82,12 @@ void Engine::HandleObjectCollision()
 
     if(isGameEndCollision)
     {
-        isGameRunning = false;
+        m_IsGameRunning = false;
     }
     else if (m_pFruitObj->isCollision(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY()))
     {
         m_pSnakeObj->AddPartOfSnakeBody(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY());
+        m_pScoreBoard->Update();
     }
     else
     {
@@ -95,6 +98,6 @@ void Engine::HandleObjectCollision()
 void Engine::GameOverTitle()
 {
     system("cls");
-    std::cout<< "..:: GAME OVER ::.." <<std::endl;
+    m_pScoreBoard->GameOver();
 }
 }

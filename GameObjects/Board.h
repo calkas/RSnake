@@ -11,7 +11,6 @@ public:
     Board(int height, int widht);
     ~Board();
     void Draw();
-    void printAllCoord();
     bool isCollision(int x, int y);
 
 private:

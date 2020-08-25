@@ -20,7 +20,6 @@ public:
     ~Snake();
 
     void AddPartOfSnakeBody(int posX, int posY);
-
     void Update();
     void Draw();
     bool isCollision();
@@ -32,7 +31,7 @@ private:
     void CreateStartSnakeBodyShape(int startPosX, int startPosY);
     std::vector<AObjectShape *> m_VecOfSnakeBody;
     SnakeDirection m_SnakeDir;
-    bool startWaitFlag;
+    bool m_StartWaitFlag;
 };
 }
 #endif // SNAKE_H

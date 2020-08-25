@@ -48,16 +48,6 @@ void Board::Draw()
     }
 }
 
-void Board::printAllCoord()
-{
-    int i = 0;
-    for(const auto &pWallElement : m_VecOfBoardWalls)
-    {
-        std::cout<<i<<")"<< pWallElement->m_posX<< "," <<pWallElement->m_posY <<std::endl;
-        ++i;
-    }
-}
-
 bool Board::isCollision(int x, int y)
 {
     for(const auto &pWallElement : m_VecOfBoardWalls)

@@ -8,11 +8,12 @@ class Board;
 class Snake;
 class Fruit;
 class IControl;
+class ScoreBoard;
 
 class Engine
 {
 public:
-    Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, IControl *pControl);
+    Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, ScoreBoard *pScoreBoard, IControl *pControl);
     void GameLoop();
 
 private:
@@ -25,10 +26,11 @@ private:
     void HandleObjectCollision();
     void GameOverTitle();
 
-    bool isGameRunning;
+    bool m_IsGameRunning;
     Board *m_pGameBoardObj;
     Snake *m_pSnakeObj;
     Fruit *m_pFruitObj;
+    ScoreBoard *m_pScoreBoard;
     IControl *m_pControl;
 };
 
