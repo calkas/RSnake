@@ -1,14 +1,15 @@
 # RSnake
 
-Simple game in C++ base on historical "Snake"
+Simple console game in C++ based on historical "Snake"
 
 ![image info](./RSnake_gameScreen.png)
 
+Player Controls:
+Keys: <kbd>UP</kbd>, <kbd>DOWN</kbd>, <kbd>LEFT</kbd>, <kbd>RIGHT</kbd>
 
 ### 1.1 Class Diagram
 
 ![image info](./RSnake_classDiagram.png)
-
 
 ```plantuml
 @startuml
@@ -18,7 +19,7 @@ hide empty methods
 title RSnake Game - Class Diagram
 
 class Engine {
-  +Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, IControl *pControl)
+  +Engine(...)
   +void GameLoop()
 }
 
@@ -44,6 +45,12 @@ class Fruit {
  + void Draw()
  +bool isCollision()
  -AObjectShape *m_pFruitShape
+}
+
+class StoryBoard {
+ + void Update()
+ + void Show()
+ + void GameOver()
 }
 
 interface IControl{
@@ -76,10 +83,11 @@ AObjectShape <|-down- DSnakeBody
 AObjectShape <|-down- DBoardWall
 AObjectShape <|-down- DFruit
 
-Engine --> RSnake
-Engine --> Board
-Engine --> Fruit
-Engine -up-> IControl
+Engine o-- RSnake
+Engine o-- Board
+Engine o-- Fruit
+Engine o-right- StoryBoard
+Engine o-up- IControl
 
 RSnake o-- AObjectShape
 Board  o-- AObjectShape
@@ -92,9 +100,13 @@ Fruit  o-- AObjectShape
 
 Execute the following commands:
 
-> mkdir build
+```
+mkdir build
 cd build
 cmake .. -G "MinGW Makefiles"
 mingw32-make
+```
+
+
 
 
