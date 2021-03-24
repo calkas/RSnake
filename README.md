@@ -1,4 +1,4 @@
-# RSnake
+# 🐍 RSnake
 
 Simple console game in C++ based on historical "Snake"
 
@@ -7,7 +7,7 @@ Simple console game in C++ based on historical "Snake"
 Player Controls:
 Keys: <kbd>UP</kbd>, <kbd>DOWN</kbd>, <kbd>LEFT</kbd>, <kbd>RIGHT</kbd>
 
-### 1.1 Class Diagram
+## 📊 UML Class Diagram
 
 ![image info](./RSnake_classDiagram.png)
 
@@ -96,7 +96,8 @@ Fruit  o-- AObjectShape
 @enduml
 ```
 
-### 1.2 Building on Windows with CMake and MinGW
+## 🕹️ How to Run
+### Building on Windows with CMake and MinGW
 
 Execute the following commands:
 
