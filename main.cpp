@@ -1,15 +1,15 @@
 #include <iostream>
-#include "Engine/Engine.h"
-#include "GameObjects/Snake.h"
-#include "GameObjects/Board.h"
-#include "GameObjects/Fruit.h"
-#include "GameObjects/ScoreBoard.h"
-#include "Control/InputControl.h"
-#include "Control/IControl.h"
+#include "Engine.h"
+#include "Snake.h"
+#include "Board.h"
+#include "Fruit.h"
+#include "ScoreBoard.h"
+#include "InputControl.h"
+#include "IControl.h"
 
 using namespace std;
 
-static const int WIDHT_GAMEBOARD_SIZE  {40};
+static const int WIDHT_GAMEBOARD_SIZE  {60};
 static const int HEIGHT_GAMEBOARD_SIZE {15};
 
 int main()
