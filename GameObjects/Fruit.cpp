@@ -24,39 +24,37 @@ Fruit::Fruit(int maxGenPosX, int maxGenPosY) : m_MaxGenPosX(maxGenPosX),
 
 Fruit::~Fruit()
 {
-    delete m_pFruitShape;
-    m_pFruitShape = nullptr;
 }
 
 void Fruit::Update()
 {
     static bool firstTime =true;
-    if(m_pFruitShape == nullptr)
+    if(m_pFruit == nullptr)
     {
         return;
     }
 
     if(m_SnakeAteFruitFlag || firstTime)
     {
-        m_pFruitShape->m_posX = rand() % m_MaxGenPosX + 1;
-        m_pFruitShape->m_posY = rand() % m_MaxGenPosY + 1;
+        m_pFruit->m_posX = rand() % m_MaxGenPosX + 1;
+        m_pFruit->m_posY = rand() % m_MaxGenPosY + 1;
         m_SnakeAteFruitFlag = false;
         firstTime = false;
     }
 }
 
-void Fruit::Draw()
+void Fruit::Draw() const
 {
-    if(m_pFruitShape == nullptr)
+    if(m_pFruit == nullptr)
     {
         return;
     }
-    m_pFruitShape->Draw();
+    m_pFruit->Draw();
 }
 
-bool Fruit::isCollision(int x, int y)
+bool Fruit::isCollision(const int x, const int y)
 {
-    if((m_pFruitShape->m_posX == x) && (m_pFruitShape->m_posY == y))
+    if((m_pFruit->m_posX == x) && (m_pFruit->m_posY == y))
     {
         m_SnakeAteFruitFlag = true;
         return true;
@@ -64,8 +62,8 @@ bool Fruit::isCollision(int x, int y)
     return false;
 }
 
-void Fruit::CreateFruit(int x, int y)
+void Fruit::CreateFruit(const int x, const int y)
 {
-    m_pFruitShape = CreateFruitBodyShape(x, y);
+    m_pFruit = move(CreateFruitBodyShape(x, y));
 }
 }

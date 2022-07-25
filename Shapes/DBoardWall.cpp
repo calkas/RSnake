@@ -6,10 +6,8 @@
 namespace RSnakeGame
 {
 
-DBoardWall::DBoardWall(int x, int y)
+DBoardWall::DBoardWall(int x, int y) : AObjectShape(x,y)
 {
-    m_posX = x;
-    m_posY = y;
 }
 
 void DBoardWall::Draw()

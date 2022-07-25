@@ -6,22 +6,19 @@
 namespace RSnakeGame
 {
 
-AObjectShape *CreateBoardWallShape(int x, int y)
+std::unique_ptr<AObjectShape> CreateBoardWallShape(const int x, const int y)
 {
-    AObjectShape *pWallObj = new DBoardWall(x,y);
-    return pWallObj;
+    return std::make_unique<DBoardWall>(x,y);
 }
 
-AObjectShape *CreateSnakeBodyShape(int x, int y)
+std::unique_ptr<AObjectShape> CreateSnakeBodyShape(const int x, const int y)
 {
-    AObjectShape *pSnakeBodyObj = new DSnakeBody(x, y);
-    return pSnakeBodyObj;
+    return std::make_unique<DSnakeBody>(x,y);
 }
 
-AObjectShape *CreateFruitBodyShape(int x, int y)
+std::unique_ptr<AObjectShape> CreateFruitBodyShape(const int x, const int y)
 {
-    AObjectShape *pFruitBodyObj = new DFruit(x, y);
-    return pFruitBodyObj;
+    return std::make_unique<DFruit>(x,y);
 }
 
 }

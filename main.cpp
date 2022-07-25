@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Engine.h"
 #include "Snake.h"
 #include "Board.h"
@@ -6,8 +5,6 @@
 #include "ScoreBoard.h"
 #include "InputControl.h"
 #include "IControl.h"
-
-using namespace std;
 
 static const int WIDHT_GAMEBOARD_SIZE  {60};
 static const int HEIGHT_GAMEBOARD_SIZE {15};
@@ -28,5 +25,6 @@ int main()
     GameEngineObj.GameLoop();
 
     delete pControl;
-    return 0;
+
+   return 0;
 }

@@ -6,10 +6,8 @@
 namespace RSnakeGame
 {
 
-DSnakeBody::DSnakeBody(int x, int y)
+DSnakeBody::DSnakeBody(int x, int y) : AObjectShape(x,y)
 {
-    m_posX = x;
-    m_posY = y;
 }
 
 void DSnakeBody::Draw()

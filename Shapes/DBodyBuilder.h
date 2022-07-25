@@ -1,12 +1,13 @@
 #ifndef DBODYBUILDER_H
 #define DBODYBUILDER_H
+#include <memory>
 #include "AObjectShape.h"
 namespace RSnakeGame
 {
 
-AObjectShape *CreateBoardWallShape(int x, int y);
-AObjectShape *CreateSnakeBodyShape(int x, int y);
-AObjectShape *CreateFruitBodyShape(int x, int y);
+std::unique_ptr<AObjectShape> CreateBoardWallShape(const int x, const int y);
+std::unique_ptr<AObjectShape> CreateSnakeBodyShape(const int x, const int y);
+std::unique_ptr<AObjectShape> CreateFruitBodyShape(const int x, const int y);
 
 }
 #endif // DBODYBUILDER_H

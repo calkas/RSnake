@@ -4,10 +4,8 @@
 
 namespace RSnakeGame
 {
-
-class DBoardWall : public AObjectShape
+struct DBoardWall : AObjectShape
 {
-public:
     DBoardWall(int x, int y);
     virtual void Draw() override;
 };

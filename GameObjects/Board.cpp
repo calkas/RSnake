@@ -1,7 +1,6 @@
 #include "Board.h"
 #include "AObjectShape.h"
 #include "DBodyBuilder.h"
-#include <iostream>
 
 namespace RSnakeGame
 {
@@ -13,46 +12,40 @@ Board::Board(int height, int widht)
 
 Board::~Board()
 {
-    for(auto &pWallElement : m_VecOfBoardWalls)
-    {
-        delete pWallElement;
-        pWallElement = nullptr;
-    }
-    m_VecOfBoardWalls.clear();
 }
 
-void Board::CreateGameBoard(int height, int widht)
+void Board::CreateGameBoard(const int height, const int widht)
 {
     for(int lineId = 0; lineId < height; lineId++)
     {
-            if(lineId == 0 || lineId == (height - 1))
+        if(lineId == 0 || lineId == (height - 1))
+        {
+            for(int columnId = 0; columnId < widht; columnId++)
             {
-                for(int columnId = 0; columnId < widht; columnId++)
-                {
-                    CreateWall(columnId,lineId);
-                }
+                CreateWall(columnId,lineId);
             }
-            else
-            {
-                 CreateWall(0,lineId);
-                 CreateWall(widht - 1 ,lineId);
-            }
+        }
+        else
+        {
+             CreateWall(0,lineId);
+             CreateWall(widht - 1 ,lineId);
+        }
     }
 }
 
-void Board::Draw()
+void Board::Draw() const
 {
-    for(const auto &pWallElement : m_VecOfBoardWalls)
+    for(const auto &pWall : m_Walls)
     {
-        pWallElement->Draw();
+        pWall->Draw();
     }
 }
 
-bool Board::isCollision(int x, int y)
+bool Board::isCollision(const int x, const int y) const
 {
-    for(const auto &pWallElement : m_VecOfBoardWalls)
+    for(const auto &pWall : m_Walls)
     {
-        if((pWallElement->m_posX == x) && (pWallElement->m_posY == y))
+        if((pWall->m_posX == x) && (pWall->m_posY == y))
         {
             return true;
         }
@@ -60,10 +53,9 @@ bool Board::isCollision(int x, int y)
     return false;
 }
 
-void Board::CreateWall(int x, int y)
+void Board::CreateWall(const int x, const int y)
 {
-    AObjectShape *pWallObj = CreateBoardWallShape(x, y);
-    m_VecOfBoardWalls.push_back(pWallObj);
+    m_Walls.push_back(CreateBoardWallShape(x, y));
 }
 
 }

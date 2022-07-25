@@ -5,7 +5,6 @@
 #include "ScoreBoard.h"
 #include "IControl.h"
 #include <windows.h>
-#include <iostream>
 
 namespace RSnakeGame
 {

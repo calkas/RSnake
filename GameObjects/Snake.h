@@ -1,6 +1,7 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 #include <vector>
+#include <memory>
 
 namespace RSnakeGame
 {
@@ -19,7 +20,7 @@ public:
     Snake(int startPosX, int startPosY);
     ~Snake();
 
-    void AddPartOfSnakeBody(int posX, int posY);
+    void AddPartOfSnakeBody(const int posX, const int posY);
     void Update();
     void Draw();
     bool isCollision();
@@ -28,8 +29,8 @@ public:
     void MoveSnake(SnakeDirection snakeDir);
 
 private:
-    void CreateStartSnakeBodyShape(int startPosX, int startPosY);
-    std::vector<AObjectShape *> m_VecOfSnakeBody;
+    void CreateStartSnakeBodyShape(const int startPosX, const int startPosY);
+    std::vector<std::shared_ptr<AObjectShape>>m_SnakeBody;
     SnakeDirection m_SnakeDir;
     bool m_StartWaitFlag;
 };

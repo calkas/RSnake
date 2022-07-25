@@ -6,10 +6,8 @@
 namespace RSnakeGame
 {
 
-DFruit::DFruit(int x, int y)
+DFruit::DFruit(int x, int y) : AObjectShape(x,y)
 {
-    m_posX = x;
-    m_posY = y;
 }
 
 void DFruit::Draw()
