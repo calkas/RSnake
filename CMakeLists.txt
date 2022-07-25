@@ -15,10 +15,10 @@ add_subdirectory(GameObjects)
 
 add_executable(RSnake main.cpp)
 
-target_link_libraries(RSnake PUBLIC Control)
-target_link_libraries(RSnake PUBLIC Shapes)
-target_link_libraries(RSnake PUBLIC Engine)
-target_link_libraries(RSnake PUBLIC GameObjects)
+target_link_libraries(RSnake PRIVATE Control)
+target_link_libraries(RSnake PRIVATE Shapes)
+target_link_libraries(RSnake PRIVATE Engine)
+target_link_libraries(RSnake PRIVATE GameObjects)
 
 target_include_directories(Control PUBLIC
                            "${PROJECT_BINARY_DIR}"
