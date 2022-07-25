@@ -76,7 +76,7 @@ void Snake::Draw()
     }
 }
 
-bool Snake::isCollision()
+bool Snake::IsCollision()
 {
     for(auto bodyElementIt = m_SnakeBody.begin() + 2; bodyElementIt != m_SnakeBody.end(); bodyElementIt++)
     {

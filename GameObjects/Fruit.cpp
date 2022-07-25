@@ -52,7 +52,7 @@ void Fruit::Draw() const
     m_pFruit->Draw();
 }
 
-bool Fruit::isCollision(const int x, const int y)
+bool Fruit::WasEaten(const int x, const int y)
 {
     if((m_pFruit->m_posX == x) && (m_pFruit->m_posY == y))
     {

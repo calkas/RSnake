@@ -17,7 +17,7 @@ public:
 
     void Update();
     void Draw() const;
-    bool isCollision(const int x, const int y);
+    bool WasEaten(const int x, const int y);
 
 private:
     void CreateFruit(const int x, const int y);

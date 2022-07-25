@@ -41,7 +41,7 @@ void Board::Draw() const
     }
 }
 
-bool Board::isCollision(const int x, const int y) const
+bool Board::IsCollision(const int x, const int y) const
 {
     for(const auto &pWall : m_Walls)
     {

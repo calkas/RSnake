@@ -23,7 +23,7 @@ public:
     void AddPartOfSnakeBody(const int posX, const int posY);
     void Update();
     void Draw();
-    bool isCollision();
+    bool IsCollision();
     int GetHeadSnakeX() const;
     int GetHeadSnakeY() const;
     void MoveSnake(SnakeDirection snakeDir);

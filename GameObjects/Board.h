@@ -13,7 +13,7 @@ public:
     Board(int height, int widht);
     ~Board();
     void Draw() const;
-    bool isCollision(const int x, const int y) const;
+    bool IsCollision(const int x, const int y) const;
 
 private:
     void CreateGameBoard(const int height, const int widht);

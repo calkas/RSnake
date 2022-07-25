@@ -1,3 +1,4 @@
+#include <memory>
 #include "Engine.h"
 #include "Snake.h"
 #include "Board.h"
@@ -11,20 +12,18 @@ static const int HEIGHT_GAMEBOARD_SIZE {15};
 
 int main()
 {
-    RSnakeGame::Board GameBoardObj {HEIGHT_GAMEBOARD_SIZE, WIDHT_GAMEBOARD_SIZE};
-    RSnakeGame::Snake SnakeObj {WIDHT_GAMEBOARD_SIZE / 2, HEIGHT_GAMEBOARD_SIZE / 2};
-    RSnakeGame::Fruit FruitObj {WIDHT_GAMEBOARD_SIZE - 2, HEIGHT_GAMEBOARD_SIZE - 2};
-    RSnakeGame::ScoreBoard ScoreBoardObj {0, HEIGHT_GAMEBOARD_SIZE + 1};
-    RSnakeGame::IControl *pControl = new RSnakeGame::InputControl();
+    RSnakeGame::Board gameBoard {HEIGHT_GAMEBOARD_SIZE, WIDHT_GAMEBOARD_SIZE};
+    RSnakeGame::Snake snake {WIDHT_GAMEBOARD_SIZE / 2, HEIGHT_GAMEBOARD_SIZE / 2};
+    RSnakeGame::Fruit fruit {WIDHT_GAMEBOARD_SIZE - 2, HEIGHT_GAMEBOARD_SIZE - 2};
+    RSnakeGame::ScoreBoard scoreBoard {0, HEIGHT_GAMEBOARD_SIZE + 1};
 
-    RSnakeGame::Engine GameEngineObj(&GameBoardObj,
-                                     &SnakeObj,
-                                     &FruitObj,
-                                     &ScoreBoardObj,
-                                     pControl);
-    GameEngineObj.GameLoop();
+    std::unique_ptr<RSnakeGame::IControl> pControl(new RSnakeGame::InputControl());
 
-    delete pControl;
-
+    RSnakeGame::Engine GameEngineObj(gameBoard,
+                                     snake,
+                                     fruit,
+                                     scoreBoard,
+                                     std::move(pControl));
+   GameEngineObj.GameLoop();
    return 0;
 }

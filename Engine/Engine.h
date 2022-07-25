@@ -1,6 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <memory>
+
 namespace RSnakeGame
 {
 class AObjectShape;
@@ -13,7 +15,9 @@ class ScoreBoard;
 class Engine
 {
 public:
-    Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, ScoreBoard *pScoreBoard, IControl *pControl);
+    explicit Engine(Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard, std::unique_ptr<IControl> pControl);
+    ~Engine() = default;
+    Engine() = delete;
     void GameLoop();
 
 private:
@@ -24,14 +28,14 @@ private:
     void Draw();
 
     void HandleObjectCollision();
-    void GameOverTitle();
+    void GameOver();
 
-    bool m_IsGameRunning;
-    Board *m_pGameBoardObj;
-    Snake *m_pSnakeObj;
-    Fruit *m_pFruitObj;
-    ScoreBoard *m_pScoreBoard;
-    IControl *m_pControl;
+    bool m_GameRunning;
+    Board &m_rGameBoard;
+    Snake &m_rSnake;
+    Fruit &m_rFruit;
+    ScoreBoard &m_rScoreBoard;
+    std::unique_ptr<IControl> m_pControl;
 };
 
 }

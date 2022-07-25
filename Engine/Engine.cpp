@@ -9,21 +9,25 @@
 namespace RSnakeGame
 {
 
-Engine::Engine(Board *pBoard, Snake *pSnake, Fruit *pFruit, ScoreBoard *pScoreBoard, IControl *pControl) :
-    m_pGameBoardObj(pBoard), m_pSnakeObj(pSnake), m_pFruitObj(pFruit), m_pScoreBoard(pScoreBoard), m_pControl(pControl)
+Engine::Engine(Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard, std::unique_ptr<IControl> pControl):
+    m_rGameBoard(rBoard),
+    m_rSnake(rSnake),
+    m_rFruit(rFruit),
+    m_rScoreBoard(rScoreBoard),
+    m_pControl(std::move(pControl)),
+    m_GameRunning(true)
 {
-    m_IsGameRunning = true;
 }
 
 void Engine::GameLoop()
 {
-    while (m_IsGameRunning)
+    while (m_GameRunning)
     {
         Input();
         HandleObjectCollision();
-        if(!m_IsGameRunning)
+        if(!m_GameRunning)
         {
-            GameOverTitle();
+            GameOver();
             break;
         }
 
@@ -36,67 +40,51 @@ void Engine::GameLoop()
 void Engine::Input()
 {
     if(m_pControl->isUpPressed())
-    {
-        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_UP);
-    }
+        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_UP);
     else if(m_pControl->isDownPressed())
-    {
-        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_DOWN);
-    }
+        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_DOWN);
     else if(m_pControl->isLeftPressed())
-    {
-        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_LEFT);
-
-    }
+        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_LEFT);
     else if(m_pControl->isRightPressed())
-    {
-        m_pSnakeObj->MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_RIGHT);
-    }
-    else
-    {
-        //Do Nothing
-    }
-
+        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_RIGHT);
 }
 
 void Engine::Update()
 {
-    m_pFruitObj->Update();
-    m_pSnakeObj->Update();
+    m_rFruit.Update();
+    m_rSnake.Update();
 }
 
 void Engine::Draw()
 {
     system("cls");
-    m_pGameBoardObj->Draw();
-    m_pSnakeObj->Draw();
-    m_pFruitObj->Draw();
-    m_pScoreBoard->Show();
+    m_rGameBoard.Draw();
+    m_rSnake.Draw();
+    m_rFruit.Draw();
+    m_rScoreBoard.Show();
 }
 
 void Engine::HandleObjectCollision()
 {
-    const bool isGameEndCollision = m_pGameBoardObj->isCollision(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY()) ||
-            m_pSnakeObj->isCollision();
+    const bool isGameEndCollision = m_rGameBoard.IsCollision(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()) ||
+            m_rSnake.IsCollision();
 
     if(isGameEndCollision)
     {
-        m_IsGameRunning = false;
+        m_GameRunning = false;
+        return;
     }
-    else if (m_pFruitObj->isCollision(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY()))
-    {
-        m_pSnakeObj->AddPartOfSnakeBody(m_pSnakeObj->GetHeadSnakeX(), m_pSnakeObj->GetHeadSnakeY());
-        m_pScoreBoard->Update();
-    }
-    else
-    {
 
+    if(m_rFruit.WasEaten(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()))
+    {
+        m_rSnake.AddPartOfSnakeBody(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY());
+        m_rScoreBoard.Update();
     }
 }
 
-void Engine::GameOverTitle()
+void Engine::GameOver()
 {
     system("cls");
-    m_pScoreBoard->GameOver();
+    m_rScoreBoard.GameOver();
 }
 }
