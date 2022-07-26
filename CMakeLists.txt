@@ -9,11 +9,14 @@ add_subdirectory(Control)
 add_subdirectory(Shapes)
 add_subdirectory(Engine)
 add_subdirectory(GameObjects)
+add_subdirectory(Tests)
 
 #However, the file(GLOB...) allows for wildcard additions:
 #file(GLOB SOURCES "src/*.cpp")
 
 add_executable(RSnake main.cpp)
+
+enable_testing() # Must be in main file
 
 target_link_libraries(RSnake PRIVATE Control)
 target_link_libraries(RSnake PRIVATE Shapes)
