@@ -7,10 +7,10 @@ namespace RSnakeGame
 struct IControl
 {
     virtual ~IControl() = default;
-    virtual bool isUpPressed()    = 0;
-    virtual bool isDownPressed()  = 0;
-    virtual bool isLeftPressed()  = 0;
-    virtual bool isRightPressed() = 0;
+    virtual bool isUpPressed()    const  = 0;
+    virtual bool isDownPressed()  const  = 0;
+    virtual bool isLeftPressed()  const  = 0;
+    virtual bool isRightPressed() const  = 0;
 };
 
 }

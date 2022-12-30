@@ -13,8 +13,6 @@ add_subdirectory(Tests)
 
 add_executable(RSnake main.cpp)
 
-enable_testing() # Must be in main file
-
 target_link_libraries(RSnake PRIVATE Control)
 target_link_libraries(RSnake PRIVATE Shapes)
 target_link_libraries(RSnake PRIVATE Engine)

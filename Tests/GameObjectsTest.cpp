@@ -86,9 +86,3 @@ TEST(SnakeTest, MovingDetection)
     EXPECT_EQ(2, snake.GetHeadSnakeX());
     EXPECT_EQ(3, snake.GetHeadSnakeY());
 }
-
-int main(int argc, char *argv[])
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

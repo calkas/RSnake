@@ -7,12 +7,12 @@ namespace RSnakeGame
 class InputControl : public IControl
 {
 public:
-    virtual bool isUpPressed()    override;
-    virtual bool isDownPressed()  override;
-    virtual bool isLeftPressed()  override;
-    virtual bool isRightPressed() override;
+    virtual bool isUpPressed()    const override;
+    virtual bool isDownPressed()  const override;
+    virtual bool isLeftPressed()  const override;
+    virtual bool isRightPressed() const override;
 private:
-    bool isKeyPressed(int key);
+    bool isKeyPressed(const int key) const;
 };
 
 }

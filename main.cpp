@@ -17,7 +17,7 @@ int main()
     RSnakeGame::Fruit fruit {WIDHT_GAMEBOARD_SIZE - 2, HEIGHT_GAMEBOARD_SIZE - 2};
     RSnakeGame::ScoreBoard scoreBoard {0, HEIGHT_GAMEBOARD_SIZE + 1};
 
-    std::unique_ptr<RSnakeGame::IControl> pControl(new RSnakeGame::InputControl());
+    std::unique_ptr<RSnakeGame::IControl> pControl = std::make_unique<RSnakeGame::InputControl>();
 
     RSnakeGame::Engine GameEngineObj(gameBoard,
                                      snake,
