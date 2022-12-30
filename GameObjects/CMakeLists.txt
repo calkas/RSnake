@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
 
-set (INCLUDES_DIRS
-     GameObjects
-     "${PROJECT_SOURCE_DIR}/Shapes"
-    )
-
 add_library(GameObjects STATIC
             Snake.cpp
             Board.cpp
@@ -13,4 +8,7 @@ add_library(GameObjects STATIC
 
 target_link_libraries(GameObjects PRIVATE Shapes)
 
-target_include_directories(GameObjects PUBLIC ${INCLUDE_DIRS})
+
+target_include_directories(GameObjects PUBLIC
+                           "${PROJECT_SOURCE_DIR}/GameObjects"
+                          )
