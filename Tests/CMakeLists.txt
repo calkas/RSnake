@@ -1,9 +1,3 @@
-cmake_minimum_required(VERSION 3.13)
-
-project(unit_tests)
-
-set(CMAKE_CXX_STANDARD 14)
-
 include(FetchContent)
 
 FetchContent_Declare(
