@@ -1,3 +1,5 @@
+# By default, new Visual Studio projects link the C runtimes dynamically but GoogleTest links them statically. 
+set(gtest_force_shared_crt on)
 include(FetchContent)
 
 FetchContent_Declare(
