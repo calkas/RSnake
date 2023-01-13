@@ -1,6 +1,7 @@
 #include "Snake.h"
 #include "AObjectShape.h"
 #include "DBodyBuilder.h"
+#include "DSnakeBody.h"
 
 namespace RSnakeGame
 {
@@ -18,7 +19,7 @@ Snake::~Snake()
 
 void Snake::AddPartOfSnakeBody(const int posX, const int posY)
 {
-    m_SnakeBody.push_back(CreateSnakeBodyShape(posX, posY));
+    m_SnakeBody.push_back(CreateBodyShape<DSnakeBody>(posX, posY));
 }
 
 void Snake::Update()

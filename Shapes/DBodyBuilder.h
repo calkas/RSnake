@@ -4,10 +4,11 @@
 #include "AObjectShape.h"
 namespace RSnakeGame
 {
-
-std::unique_ptr<AObjectShape> CreateBoardWallShape(const int x, const int y);
-std::unique_ptr<AObjectShape> CreateSnakeBodyShape(const int x, const int y);
-std::unique_ptr<AObjectShape> CreateFruitBodyShape(const int x, const int y);
+template<typename BodyShape>
+std::unique_ptr<AObjectShape> CreateBodyShape(const int x, const int y)
+{
+    return std::make_unique<BodyShape>(x, y);
+}
 
 }
 #endif // DBODYBUILDER_H

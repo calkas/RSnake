@@ -1,6 +1,7 @@
 #include "Board.h"
 #include "AObjectShape.h"
 #include "DBodyBuilder.h"
+#include "DBoardWall.h"
 
 namespace RSnakeGame
 {
@@ -55,7 +56,7 @@ bool Board::IsCollision(const int x, const int y) const
 
 void Board::CreateWall(const int x, const int y)
 {
-    m_Walls.push_back(CreateBoardWallShape(x, y));
+    m_Walls.push_back(CreateBodyShape<DBoardWall>(x, y));
 }
 
 }

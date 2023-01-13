@@ -4,8 +4,9 @@
 namespace RSnakeGame
 {
 
-struct IControl
+class IControl
 {
+public:
     virtual ~IControl() = default;
     virtual bool isUpPressed()    const  = 0;
     virtual bool isDownPressed()  const  = 0;

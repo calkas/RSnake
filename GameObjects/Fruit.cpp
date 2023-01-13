@@ -1,6 +1,7 @@
 #include "Fruit.h"
 #include "AObjectShape.h"
 #include "DBodyBuilder.h"
+#include "DFruit.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -16,7 +17,7 @@ Fruit::Fruit(int maxGenPosX, int maxGenPosY) : m_MaxGenPosX(maxGenPosX),
     CreateFruit(1,1);
     if(!SEEDED_FOR_SRAND)
     {
-        srand(time(NULL));
+        srand(static_cast<unsigned int>(time(NULL)));
         SEEDED_FOR_SRAND = true;
     }
     Update();
@@ -64,6 +65,6 @@ bool Fruit::WasEaten(const int x, const int y)
 
 void Fruit::CreateFruit(const int x, const int y)
 {
-    m_pFruit = move(CreateFruitBodyShape(x, y));
+    m_pFruit = std::move(CreateBodyShape<DFruit>(x,y));
 }
 }
