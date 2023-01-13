@@ -4,6 +4,7 @@ project(RSnake LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE)
 
 add_subdirectory(Control)
 add_subdirectory(Shapes)
