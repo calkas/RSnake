@@ -26,7 +26,7 @@ bool InputControl::isRightPressed() const
 
 bool InputControl::isKeyPressed(const int key) const
 {
-    return (GetAsyncKeyState(key) & 0x8000 != 0);
+    return ((GetAsyncKeyState(key) & 0x8000) != 0);
 }
 
 }
