@@ -17,3 +17,5 @@ endif()
 add_executable(ut_gameobjects_tests GameObjectsTest.cpp)
 
 target_link_libraries(ut_gameobjects_tests gtest gmock gtest_main GameObjects)
+
+add_test(gameobjects_gtests ut_gameobjects_tests)
