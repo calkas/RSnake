@@ -6,18 +6,18 @@ namespace RSnakeGame
 
 class ScoreBoard
 {
-public:
+  public:
     ScoreBoard(int posX, int posY);
     void Update();
     void Show();
     void GameOver();
 
-private:
+  private:
     unsigned int m_Score;
-    int m_PosX;
-    int m_PosY;
+    int posX;
+    int posY;
 };
 
-}
+} // namespace RSnakeGame
 
 #endif // SCOREBOARD_H

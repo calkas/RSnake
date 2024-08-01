@@ -7,7 +7,7 @@ add_library(GameObjects STATIC
 
 target_link_libraries(GameObjects PRIVATE Shapes)
 
-
 target_include_directories(GameObjects PUBLIC
     "${PROJECT_SOURCE_DIR}/GameObjects"
+    "${PROJECT_SOURCE_DIR}/Utilities"
 )

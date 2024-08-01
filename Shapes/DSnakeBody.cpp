@@ -1,21 +1,19 @@
-#include "DSnakeBody.h"
-#include <iostream>
-#include <cstdio>
-#include <windows.h>
+#include "DSnakeBody.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace RSnakeGame
 {
 
-DSnakeBody::DSnakeBody(int x, int y) : AObjectShape(x,y)
+DSnakeBody::DSnakeBody(int x, int y, int w, int h, sf::RenderWindow *pRenderWindow)
+    : DrawableBlock(x, y, w, h, pRenderWindow)
 {
 }
 
 void DSnakeBody::Draw()
 {
-    COORD coord { static_cast<short int>(m_posX), static_cast<short int>(m_posY) };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-    std::cout<<"o"<<std::flush;
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+    sf::RectangleShape snakeBodyElement(sf::Vector2f(width, height));
+    snakeBodyElement.move(sf::Vector2f(posX, posY));
+    snakeBodyElement.setFillColor(sf::Color::Blue);
+    pRenderer->draw(snakeBodyElement);
 }
-}
+} // namespace RSnakeGame

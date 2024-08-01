@@ -1,32 +1,27 @@
-#include "InputControl.h"
-#include <windows.h>
+#include "InputControl.hpp"
+#include <SFML/Window/Keyboard.hpp>
 
 namespace RSnakeGame
 {
 
 bool InputControl::isUpPressed() const
 {
-    return isKeyPressed(VK_UP);
+    return (sf::Keyboard::isKeyPressed(sf::Keyboard::Up));
 }
 
 bool InputControl::isDownPressed() const
 {
-    return isKeyPressed(VK_DOWN);
+    return (sf::Keyboard::isKeyPressed(sf::Keyboard::Down));
 }
 
 bool InputControl::isLeftPressed() const
 {
-    return isKeyPressed(VK_LEFT);
+    return (sf::Keyboard::isKeyPressed(sf::Keyboard::Left));
 }
 
 bool InputControl::isRightPressed() const
 {
-    return isKeyPressed(VK_RIGHT);
+    return (sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
 }
 
-bool InputControl::isKeyPressed(const int key) const
-{
-    return ((GetAsyncKeyState(key) & 0x8000) != 0);
-}
-
-}
+} // namespace RSnakeGame

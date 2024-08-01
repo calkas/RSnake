@@ -1,21 +1,19 @@
-#include "DBoardWall.h"
-#include <iostream>
-#include <cstdio>
-#include <windows.h>
+#include "DBoardWall.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace RSnakeGame
 {
 
-DBoardWall::DBoardWall(int x, int y) : AObjectShape(x,y)
+DBoardWall::DBoardWall(int x, int y, int w, int h, sf::RenderWindow *pRenderWindow)
+    : DrawableBlock(x, y, w, h, pRenderWindow)
 {
 }
 
 void DBoardWall::Draw()
 {
-    COORD coord { static_cast<short int>(m_posX), static_cast<short int>(m_posY) };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
-    std::cout<<"#"<<std::flush;
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+    sf::RectangleShape wallBrick(sf::Vector2f(width, height));
+    wallBrick.move(sf::Vector2f(posX, posY));
+    wallBrick.setFillColor(sf::Color::Green);
+    pRenderer->draw(wallBrick);
 }
-}
+} // namespace RSnakeGame

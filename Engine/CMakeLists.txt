@@ -1,9 +1,12 @@
 add_library(Engine STATIC Engine.cpp)
 
 target_link_libraries(Engine PRIVATE
-Shapes
+  Shapes
   GameObjects
   Control
+  sfml-system
+  sfml-graphics
+  sfml-window
 )
 
 target_include_directories(Engine PUBLIC

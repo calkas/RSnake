@@ -1,11 +1,14 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include <memory>
+namespace sf
+{
+class RenderWindow;
+}
 
 namespace RSnakeGame
 {
-class AObjectShape;
+class DrawableBlock;
 class Board;
 class Snake;
 class Fruit;
@@ -14,31 +17,28 @@ class ScoreBoard;
 
 class Engine
 {
-public:
-    explicit Engine(Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard, std::unique_ptr<IControl> pControl);
+  public:
+    explicit Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
+                    std::unique_ptr<IControl> pControl);
     ~Engine() = default;
     Engine() = delete;
     void GameLoop();
 
-private:
-    static const int GAME_SPEED = 300;
-
-    void Input();
+  private:
+    void ProcessInput();
     void Update();
-    void Draw();
+    void Render();
 
     void HandleObjectCollision();
     void GameOver();
 
-    bool m_GameRunning;
+    sf::RenderWindow &m_rWindow;
     Board &m_rGameBoard;
     Snake &m_rSnake;
     Fruit &m_rFruit;
     ScoreBoard &m_rScoreBoard;
     std::unique_ptr<IControl> m_pControl;
+    bool m_GameRunning;
 };
 
-}
-
-
-#endif // ENGINE_H
+} // namespace RSnakeGame
