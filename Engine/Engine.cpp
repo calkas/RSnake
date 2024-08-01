@@ -85,20 +85,20 @@ void Engine::Render()
 
 void Engine::HandleObjectCollision()
 {
-    const bool isGameEndCollision =
-        m_rGameBoard.IsCollision(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()) || m_rSnake.IsCollision();
+    // const bool isGameEndCollision =
+    //     m_rGameBoard.IsCollision(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()) || m_rSnake.IsCollision();
 
-    if (isGameEndCollision)
-    {
-        m_GameRunning = false;
-        return;
-    }
+    // if (isGameEndCollision)
+    // {
+    //     m_GameRunning = false;
+    //     return;
+    // }
 
-    if (m_rFruit.WasEaten(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()))
-    {
-        m_rSnake.AddPartOfSnakeBody(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY());
-        m_rScoreBoard.Update();
-    }
+    // if (m_rFruit.WasEaten(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()))
+    // {
+    //     m_rSnake.AddBodyElement(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY());
+    //     m_rScoreBoard.Update();
+    // }
 }
 
 void Engine::GameOver()
