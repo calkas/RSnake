@@ -11,7 +11,7 @@ class Board
     Board(int height, int width);
     ~Board();
     void Draw() const;
-    bool IsCollision(const int x, const int y) const;
+    bool IsCollision(std::shared_ptr<DrawableBlock> object) const;
 
     int m_height;
     int m_width;

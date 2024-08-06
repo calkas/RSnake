@@ -8,11 +8,11 @@ class RenderWindow;
 
 namespace RSnakeGame
 {
-class DFruit : public DrawableBlock
+
+class DSnakeBody : public DrawableBlock
 {
   public:
-    DFruit(int x, int y, int w, int h, sf::RenderWindow *pRenderWindow);
+    DSnakeBody(Point2D coord, int w, int h, sf::RenderWindow *pRenderWindow);
     virtual void Draw() override;
 };
-
 } // namespace RSnakeGame

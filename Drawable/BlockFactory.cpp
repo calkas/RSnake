@@ -12,16 +12,16 @@ BlockFactory *BlockFactory::Instance()
     return &instance;
 }
 
-std::unique_ptr<DrawableBlock> BlockFactory::CreateBlock(BlockType blockType, int x, int y, int w, int h)
+std::unique_ptr<DrawableBlock> BlockFactory::CreateBlock(BlockType blockType, Point2D coord, int w, int h)
 {
     switch (blockType)
     {
     case BlockType::SNAKE_BODY:
-        return std::make_unique<DSnakeBody>(x, y, w, h, pRenderWindow);
+        return std::make_unique<DSnakeBody>(coord, w, h, pRenderWindow);
     case BlockType::FRUIT:
-        return std::make_unique<DFruit>(x, y, w, h, pRenderWindow);
+        return std::make_unique<DFruit>(coord, w, h, pRenderWindow);
     case BlockType::BOARD_WALL:
-        return std::make_unique<DBoardWall>(x, y, w, h, pRenderWindow);
+        return std::make_unique<DBoardWall>(coord, w, h, pRenderWindow);
     }
 }
 void BlockFactory::SetRenderer(sf::RenderWindow *pRenderer)

@@ -1,5 +1,6 @@
 #include "Snake.hpp"
 #include "BlockFactory.hpp"
+#include "Collider.hpp"
 #include "DSnakeBody.hpp"
 #include "DrawableBlock.hpp"
 #include <iostream>
@@ -7,12 +8,12 @@
 namespace RSnakeGame
 {
 
-static const int SNAKE_BLOCK_BODY_WIDTH = BlockFactory::Instance()->SIMPLE_BLOCK_SIZE;
-static const int SNAKE_BLOCK_BODY_HEIGHT = BlockFactory::Instance()->SIMPLE_BLOCK_SIZE;
+static const int SNAKE_BLOCK_BODY_WIDTH = BlockFactory::Instance()->SIMPLE_BLOCK_WIDTH;
+static const int SNAKE_BLOCK_BODY_HEIGHT = BlockFactory::Instance()->SIMPLE_BLOCK_HEIGHT;
 
-Snake::Snake(int startPosX, int startPosY) : m_SnakeDir(SnakeDirection::MOVE_SNAKE_LEFT), m_StartWaitFlag(true)
+Snake::Snake(int startPosX, int startPosY) : m_SnakeDir(SnakeDirection::MOVE_SNAKE_LEFT), m_onHoldFlag(true)
 {
-    CreateHead(startPosX, startPosY);
+    CreateHead(Point2D{startPosX, startPosY});
     AddBodyElement();
     AddBodyElement();
 }
@@ -24,35 +25,30 @@ Snake::~Snake()
 void Snake::AddBodyElement()
 {
     auto point = ConvertDirectionToVector(m_SnakeDir);
-    point.x *= SNAKE_BLOCK_BODY_WIDTH;
-    point.y *= SNAKE_BLOCK_BODY_HEIGHT;
+    point.multiply(SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT);
+    auto lastElementIterator = m_SnakeBody.end() - 1;
+    Point2D last = (*lastElementIterator)->position;
+    last = last + point;
 
-    auto lastElement = m_SnakeBody.back();
-
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateBlock(
-        BlockFactory::BlockType::SNAKE_BODY, lastElement->posX + point.x, lastElement->posY + point.y,
-        SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::SNAKE_BODY, last,
+                                                                SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
 }
 
 void Snake::Update()
 {
+    if (m_onHoldFlag)
+        return;
+
     auto newPoint = GetHeadCoordinates();
-
     auto point = ConvertDirectionToVector(m_SnakeDir);
-    m_SnakeBody[0]->posX += point.x * SNAKE_BLOCK_BODY_WIDTH;
-    m_SnakeBody[0]->posY += point.y * SNAKE_BLOCK_BODY_HEIGHT;
+    point.multiply(SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT);
+    m_SnakeBody[0]->position = m_SnakeBody[0]->position + point;
 
-    int last_x, last_y;
     for (auto snakeTail = m_SnakeBody.begin() + 1; snakeTail != m_SnakeBody.end(); snakeTail++)
     {
-        last_x = (*snakeTail)->posX;
-        last_y = (*snakeTail)->posY;
-
-        (*snakeTail)->posX = newPoint.x;
-        (*snakeTail)->posY = newPoint.y;
-
-        newPoint.x = last_x;
-        newPoint.y = last_y;
+        Point2D last = (*snakeTail)->position;
+        (*snakeTail)->position = newPoint;
+        newPoint = last;
     }
 }
 
@@ -66,30 +62,43 @@ void Snake::Draw()
 
 bool Snake::IsCollision()
 {
-    // for (auto bodyElementIt = m_SnakeBody.begin() + 2; bodyElementIt != m_SnakeBody.end(); bodyElementIt++)
-    // {
-    //     if (((*bodyElementIt)->posX == GetHeadSnakeX()) && ((*bodyElementIt)->posY == GetHeadSnakeY()))
-    //     {
-    //         return true;
-    //     }
-    // }
-    // return false;
+    if (m_onHoldFlag)
+        return false;
+
+    for (auto bodyElementIt = m_SnakeBody.begin() + 1; bodyElementIt != m_SnakeBody.end(); bodyElementIt++)
+    {
+        if (m_SnakeBody[0]->position.x == (*bodyElementIt)->position.x &&
+            m_SnakeBody[0]->position.y == (*bodyElementIt)->position.y)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::shared_ptr<DrawableBlock> Snake::GetHead() const
+{
+    return m_SnakeBody[0];
 }
 
 Point2D Snake::GetHeadCoordinates() const
 {
-    return {m_SnakeBody[0]->posX, m_SnakeBody[0]->posY};
+    return m_SnakeBody[0]->position;
 }
 
-void Snake::MoveSnake(Snake::SnakeDirection snakeDir)
+void Snake::MoveSnake(SnakeDirection snakeDir)
 {
+    if (m_SnakeDir != snakeDir)
+    {
+        m_onHoldFlag = false;
+    }
     m_SnakeDir = snakeDir;
 }
 
-void Snake::CreateHead(const int startPosX, const int startPosY)
+void Snake::CreateHead(Point2D coord)
 {
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateBlock(
-        BlockFactory::BlockType::SNAKE_BODY, startPosX, startPosY, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::SNAKE_BODY, coord,
+                                                                SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
 }
 
 Point2D Snake::ConvertDirectionToVector(SnakeDirection snakeDir)

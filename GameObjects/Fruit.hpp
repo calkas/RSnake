@@ -1,5 +1,6 @@
 #pragma once
 #include "DrawableBlock.hpp"
+#include "Point2d.hpp"
 #include <memory>
 
 namespace RSnakeGame
@@ -15,10 +16,11 @@ class Fruit
 
     void Update();
     void Draw() const;
-    bool WasEaten(const int x, const int y);
+    bool WasEaten(std::shared_ptr<DrawableBlock> object);
 
   private:
-    void CreateFruit(const int x, const int y);
+    Point2D GenerateCoordinates() const;
+    void CreateFruit(Point2D coord);
     std::unique_ptr<DrawableBlock> m_pFruit;
     int m_MaxGenPosX;
     int m_MaxGenPosY;

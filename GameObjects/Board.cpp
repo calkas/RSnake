@@ -1,15 +1,15 @@
 #include "Board.hpp"
 #include "BlockFactory.hpp"
+#include "Collider.hpp"
 #include "DBoardWall.hpp"
-#include "DrawableBlock.hpp"
 #include <cassert>
 #include <iostream>
 
 namespace RSnakeGame
 {
 
-const int BOARD_WALL_WIDTH = 10;
-const int BOARD_WALL_HEIGHT = 10;
+const int BOARD_WALL_WIDTH = BlockFactory::SIMPLE_BLOCK_WIDTH;
+const int BOARD_WALL_HEIGHT = BlockFactory::SIMPLE_BLOCK_HEIGHT;
 
 Board::Board(int height, int width) : m_height(height), m_width(width)
 {
@@ -28,9 +28,6 @@ void Board::CreateGameBoard(const int size_y, const int size_x)
     const int numberOfHorizontalWalls = m_width / BOARD_WALL_WIDTH;
     const int numberOfVerticalWalls = (m_height / BOARD_WALL_HEIGHT) - 2;
 
-    std::cout << "number of horizontal walls: " << numberOfHorizontalWalls << std::endl;
-    std::cout << "number of vertical walls: " << numberOfVerticalWalls << std::endl;
-
     for (int columnId = 0; columnId < numberOfHorizontalWalls; columnId++)
     {
         CreateWallBlock(columnId * BOARD_WALL_WIDTH, 0);
@@ -48,16 +45,15 @@ void Board::Draw() const
 {
     for (const auto &pWall : m_Walls)
     {
-
         pWall->Draw();
     }
 }
 
-bool Board::IsCollision(const int x, const int y) const
+bool Board::IsCollision(std::shared_ptr<DrawableBlock> object) const
 {
     for (const auto &pWall : m_Walls)
     {
-        if ((pWall->posX == x) && (pWall->posY == y))
+        if (Collider::Rectangle::isCollisionDetected(*pWall, *object))
         {
             return true;
         }
@@ -67,8 +63,8 @@ bool Board::IsCollision(const int x, const int y) const
 
 void Board::CreateWallBlock(const int x, const int y)
 {
-    m_Walls.push_back(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::BOARD_WALL, x, y, BOARD_WALL_WIDTH,
-                                                            BOARD_WALL_HEIGHT));
+    m_Walls.push_back(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::BOARD_WALL, Point2D{x, y},
+                                                            BOARD_WALL_WIDTH, BOARD_WALL_HEIGHT));
 }
 
 } // namespace RSnakeGame

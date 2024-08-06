@@ -19,10 +19,11 @@ class BlockFactory
         BOARD_WALL
     };
 
-    static const int SIMPLE_BLOCK_SIZE = 10;
+    static const int SIMPLE_BLOCK_WIDTH = 10;
+    static const int SIMPLE_BLOCK_HEIGHT = 10;
     static BlockFactory *Instance();
 
-    std::unique_ptr<DrawableBlock> CreateBlock(BlockType blockType, int x, int y, int w, int h);
+    std::unique_ptr<DrawableBlock> CreateBlock(BlockType blockType, Point2D coord, int w, int h);
     void SetRenderer(sf::RenderWindow *pRenderer);
 
   private:

@@ -20,12 +20,11 @@ Engine::Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Frui
 
 void Engine::GameLoop()
 {
-
     sf::Clock gameClock;
     float previousTime = gameClock.getElapsedTime().asSeconds();
     float lag = 0.0;
 
-    while (m_rWindow.isOpen())
+    while (m_rWindow.isOpen() && m_GameRunning)
     {
         float currentTime = gameClock.getElapsedTime().asSeconds();
         float elapsedTime = currentTime - previousTime;
@@ -40,18 +39,23 @@ void Engine::GameLoop()
                 ProcessInput();
             }
             if (event.type == sf::Event::Closed)
+            {
                 m_rWindow.close();
+            }
         }
-
-        HandleObjectCollision();
 
         while (lag >= 0.1)
         {
+            HandleObjectCollision();
             Update();
             lag -= 0.1;
         }
-
         Render();
+    }
+
+    if (!m_GameRunning)
+    {
+        GameOver();
     }
 }
 
@@ -85,24 +89,46 @@ void Engine::Render()
 
 void Engine::HandleObjectCollision()
 {
-    // const bool isGameEndCollision =
-    //     m_rGameBoard.IsCollision(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()) || m_rSnake.IsCollision();
+    const bool isBoardCollision = m_rGameBoard.IsCollision(m_rSnake.GetHead());
+    const bool isSnakeCollision = m_rSnake.IsCollision();
 
-    // if (isGameEndCollision)
-    // {
-    //     m_GameRunning = false;
-    //     return;
-    // }
+    if (isBoardCollision || isSnakeCollision)
+    {
+        m_GameRunning = false;
+        return;
+    }
 
-    // if (m_rFruit.WasEaten(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY()))
-    // {
-    //     m_rSnake.AddBodyElement(m_rSnake.GetHeadSnakeX(), m_rSnake.GetHeadSnakeY());
-    //     m_rScoreBoard.Update();
-    // }
+    if (m_rFruit.WasEaten(m_rSnake.GetHead()))
+    {
+        m_rSnake.AddBodyElement();
+        // m_rScoreBoard.Update();
+    }
 }
 
 void Engine::GameOver()
 {
-    m_rScoreBoard.GameOver();
+
+    sf::Text gameOverText;
+    gameOverText.setString("Game Over");
+    gameOverText.setCharacterSize(24);
+    gameOverText.setFillColor(sf::Color::Red);
+    sf::Font font;
+
+    gameOverText.setPosition(200, 200);
+
+    while (m_rWindow.isOpen())
+    {
+        sf::Event event;
+        while (m_rWindow.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                m_rWindow.close();
+            }
+        }
+        m_rWindow.clear();
+        m_rWindow.draw(gameOverText);
+        m_rWindow.display();
+    }
 }
 } // namespace RSnakeGame

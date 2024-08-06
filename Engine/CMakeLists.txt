@@ -1,7 +1,7 @@
 add_library(Engine STATIC Engine.cpp)
 
 target_link_libraries(Engine PRIVATE
-  Shapes
+  Drawable
   GameObjects
   Control
   sfml-system

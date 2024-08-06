@@ -5,7 +5,7 @@ add_library(GameObjects STATIC
     ScoreBoard.cpp
 )
 
-target_link_libraries(GameObjects PRIVATE Shapes)
+target_link_libraries(GameObjects PRIVATE Drawable)
 
 target_include_directories(GameObjects PUBLIC
     "${PROJECT_SOURCE_DIR}/GameObjects"

@@ -11,7 +11,7 @@ namespace RSnakeGame
 class DBoardWall : public DrawableBlock
 {
   public:
-    DBoardWall(int x, int y, int w, int h, sf::RenderWindow *pRenderWindow);
+    DBoardWall(Point2D coord, int w, int h, sf::RenderWindow *pRenderWindow);
     virtual void Draw() override;
 };
 

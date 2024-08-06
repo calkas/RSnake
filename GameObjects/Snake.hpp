@@ -25,13 +25,14 @@ class Snake
     void Draw();
     bool IsCollision();
     Point2D GetHeadCoordinates() const;
+    std::shared_ptr<DrawableBlock> GetHead() const;
     void MoveSnake(SnakeDirection snakeDir);
 
   private:
-    void CreateHead(const int startPosX, const int startPosY);
+    void CreateHead(Point2D coord);
     Point2D ConvertDirectionToVector(SnakeDirection snakeDir);
     std::vector<std::shared_ptr<DrawableBlock>> m_SnakeBody;
     SnakeDirection m_SnakeDir;
-    bool m_StartWaitFlag;
+    bool m_onHoldFlag;
 };
 } // namespace RSnakeGame
