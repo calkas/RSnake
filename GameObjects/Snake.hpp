@@ -10,12 +10,12 @@ namespace RSnakeGame
 class Snake
 {
   public:
-    enum class SnakeDirection
+    enum class Direction
     {
-        MOVE_SNAKE_UP,
-        MOVE_SNAKE_DOWN,
-        MOVE_SNAKE_LEFT,
-        MOVE_SNAKE_RIGHT,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
     };
     Snake(int startPosX, int startPosY);
     ~Snake();
@@ -26,13 +26,13 @@ class Snake
     bool IsCollision();
     Point2D GetHeadCoordinates() const;
     std::shared_ptr<DrawableBlock> GetHead() const;
-    void MoveSnake(SnakeDirection snakeDir);
+    void Move(Direction snakeDir);
 
   private:
     void CreateHead(Point2D coord);
-    Point2D ConvertDirectionToVector(SnakeDirection snakeDir);
+    Point2D ConvertDirectionToVector(Direction snakeDir);
     std::vector<std::shared_ptr<DrawableBlock>> m_SnakeBody;
-    SnakeDirection m_SnakeDir;
-    bool m_onHoldFlag;
+    Direction m_SnakeDir{Direction::LEFT};
+    bool m_onHoldFlag{true};
 };
 } // namespace RSnakeGame

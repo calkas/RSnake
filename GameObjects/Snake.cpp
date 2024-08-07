@@ -11,7 +11,7 @@ namespace RSnakeGame
 static const int SNAKE_BLOCK_BODY_WIDTH = BlockFactory::Instance()->SIMPLE_BLOCK_WIDTH;
 static const int SNAKE_BLOCK_BODY_HEIGHT = BlockFactory::Instance()->SIMPLE_BLOCK_HEIGHT;
 
-Snake::Snake(int startPosX, int startPosY) : m_SnakeDir(SnakeDirection::MOVE_SNAKE_LEFT), m_onHoldFlag(true)
+Snake::Snake(int startPosX, int startPosY)
 {
     CreateHead(Point2D{startPosX, startPosY});
     AddBodyElement();
@@ -86,7 +86,7 @@ Point2D Snake::GetHeadCoordinates() const
     return m_SnakeBody[0]->position;
 }
 
-void Snake::MoveSnake(SnakeDirection snakeDir)
+void Snake::Move(Direction snakeDir)
 {
     if (m_SnakeDir != snakeDir)
     {
@@ -101,17 +101,17 @@ void Snake::CreateHead(Point2D coord)
                                                                 SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
 }
 
-Point2D Snake::ConvertDirectionToVector(SnakeDirection snakeDir)
+Point2D Snake::ConvertDirectionToVector(Direction snakeDir)
 {
     switch (snakeDir)
     {
-    case Snake::SnakeDirection::MOVE_SNAKE_UP:
+    case Snake::Direction::UP:
         return {0, -1};
-    case Snake::SnakeDirection::MOVE_SNAKE_DOWN:
+    case Snake::Direction::DOWN:
         return {0, 1};
-    case Snake::SnakeDirection::MOVE_SNAKE_LEFT:
+    case Snake::Direction::LEFT:
         return {-1, 0};
-    case Snake::SnakeDirection::MOVE_SNAKE_RIGHT:
+    case Snake::Direction::RIGHT:
         return {1, 0};
     }
 }

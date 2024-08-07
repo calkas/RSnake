@@ -4,7 +4,8 @@
 namespace sf
 {
 class RenderWindow;
-}
+class Font;
+} // namespace sf
 
 namespace RSnakeGame
 {
@@ -18,8 +19,8 @@ class ScoreBoard;
 class Engine
 {
   public:
-    explicit Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
-                    std::unique_ptr<IControl> pControl);
+    explicit Engine(sf::RenderWindow &rGameWindow, sf::Font &rFont, Board &rBoard, Snake &rSnake, Fruit &rFruit,
+                    ScoreBoard &rScoreBoard, std::unique_ptr<IControl> pControl);
     ~Engine() = default;
     Engine() = delete;
     void GameLoop();
@@ -30,9 +31,11 @@ class Engine
     void Render();
 
     void HandleObjectCollision();
-    void GameOver();
+    void GameOverUi();
+    void UserBoardUi();
 
     sf::RenderWindow &m_rWindow;
+    sf::Font &m_rFont;
     Board &m_rGameBoard;
     Snake &m_rSnake;
     Fruit &m_rFruit;

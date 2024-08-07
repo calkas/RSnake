@@ -1,46 +1,18 @@
-#include "ScoreBoard.h"
-
-// #include <windows.h>
-
-// #include <cstdio>
-#include <iostream>
+#include "ScoreBoard.hpp"
 
 namespace RSnakeGame
 {
 
-ScoreBoard::ScoreBoard(int posX, int posY) : m_Score(0), posX(posX), posY(posY)
+void ScoreBoard::IncrementScore()
 {
-    Show();
+    m_Score += 1 * m_Factor;
+    if (m_Score % 10 == 0)
+    {
+        ++m_Factor;
+    }
 }
-
-void ScoreBoard::Update()
+unsigned int ScoreBoard::GetScore() const
 {
-    m_Score += 10;
+    return m_Score;
 }
-
-void ScoreBoard::Show()
-{
-    // COORD coord {static_cast<short int>(posX), static_cast<short
-    // int>(posY)};
-
-    // SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    // SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
-    // std::cout<<"SCORE: "<<m_Score<<std::flush;
-    // SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN |
-    // FOREGROUND_BLUE | FOREGROUND_RED);
-}
-
-void ScoreBoard::GameOver()
-{
-    // COORD coord {0, 0};
-    // SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    // SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
-    // std::cout<<"===================\n" <<std::flush;
-    // std::cout<<"..:: GAME OVER ::..\n\n\n" <<std::flush;
-    // std::cout<<"YOUR SCORE: "<<m_Score<<"\n"<<std::flush;
-    // std::cout<<"===================\n" <<std::flush;
-    // SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN |
-    // FOREGROUND_BLUE | FOREGROUND_RED);
-}
-
 } // namespace RSnakeGame

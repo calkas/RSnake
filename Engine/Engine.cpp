@@ -1,20 +1,20 @@
 #include "Engine.hpp"
-
 #include "Board.hpp"
 #include "Fruit.hpp"
 #include "IControl.hpp"
-#include "ScoreBoard.h"
+#include "ScoreBoard.hpp"
 #include "Snake.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string>
 
 namespace RSnakeGame
 {
 
-Engine::Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
-               std::unique_ptr<IControl> pControl)
-    : m_rWindow(rGameWindow), m_rGameBoard(rBoard), m_rSnake(rSnake), m_rFruit(rFruit), m_rScoreBoard(rScoreBoard),
-      m_pControl(std::move(pControl)), m_GameRunning(true)
+Engine::Engine(sf::RenderWindow &rGameWindow, sf::Font &rFont, Board &rBoard, Snake &rSnake, Fruit &rFruit,
+               ScoreBoard &rScoreBoard, std::unique_ptr<IControl> pControl)
+    : m_rWindow(rGameWindow), m_rFont(rFont), m_rGameBoard(rBoard), m_rSnake(rSnake), m_rFruit(rFruit),
+      m_rScoreBoard(rScoreBoard), m_pControl(std::move(pControl)), m_GameRunning(true)
 {
 }
 
@@ -55,20 +55,20 @@ void Engine::GameLoop()
 
     if (!m_GameRunning)
     {
-        GameOver();
+        GameOverUi();
     }
 }
 
 void Engine::ProcessInput()
 {
     if (m_pControl->isUpPressed())
-        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_UP);
+        m_rSnake.Move(Snake::Direction::UP);
     else if (m_pControl->isDownPressed())
-        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_DOWN);
+        m_rSnake.Move(Snake::Direction::DOWN);
     else if (m_pControl->isLeftPressed())
-        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_LEFT);
+        m_rSnake.Move(Snake::Direction::LEFT);
     else if (m_pControl->isRightPressed())
-        m_rSnake.MoveSnake(Snake::SnakeDirection::MOVE_SNAKE_RIGHT);
+        m_rSnake.Move(Snake::Direction::RIGHT);
 }
 
 void Engine::Update()
@@ -80,10 +80,13 @@ void Engine::Update()
 void Engine::Render()
 {
     m_rWindow.clear();
+
+    UserBoardUi();
+
     m_rGameBoard.Draw();
     m_rSnake.Draw();
     m_rFruit.Draw();
-    m_rScoreBoard.Show();
+
     m_rWindow.display();
 }
 
@@ -101,20 +104,39 @@ void Engine::HandleObjectCollision()
     if (m_rFruit.WasEaten(m_rSnake.GetHead()))
     {
         m_rSnake.AddBodyElement();
-        // m_rScoreBoard.Update();
+        m_rScoreBoard.IncrementScore();
     }
 }
 
-void Engine::GameOver()
+void Engine::UserBoardUi()
+{
+    sf::Text titleText;
+    titleText.setString("RSnake Game");
+    titleText.setCharacterSize(24);
+    titleText.setFillColor(sf::Color::Magenta);
+    titleText.setFont(m_rFont);
+    titleText.setPosition(m_rGameBoard.m_width + 10, 10);
+
+    sf::Text scoreText;
+    scoreText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
+    scoreText.setCharacterSize(24);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setFont(m_rFont);
+    scoreText.setPosition(m_rGameBoard.m_width + 10, m_rGameBoard.m_height - 50);
+
+    m_rWindow.draw(titleText);
+    m_rWindow.draw(scoreText);
+}
+
+void Engine::GameOverUi()
 {
 
     sf::Text gameOverText;
-    gameOverText.setString("Game Over");
-    gameOverText.setCharacterSize(24);
+    gameOverText.setString("   Game Over   \n Your Score: " + std::to_string(m_rScoreBoard.GetScore()));
+    gameOverText.setCharacterSize(28);
     gameOverText.setFillColor(sf::Color::Red);
-    sf::Font font;
-
-    gameOverText.setPosition(200, 200);
+    gameOverText.setPosition((m_rGameBoard.m_width / 2) - 100, m_rGameBoard.m_height / 2);
+    gameOverText.setFont(m_rFont);
 
     while (m_rWindow.isOpen())
     {
@@ -127,6 +149,7 @@ void Engine::GameOver()
             }
         }
         m_rWindow.clear();
+        m_rGameBoard.Draw();
         m_rWindow.draw(gameOverText);
         m_rWindow.display();
     }
