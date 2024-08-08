@@ -40,3 +40,6 @@ jobs:
     
     - name: CMake Build
       run: cmake --build ${{github.workspace}}/build
+
+    - name: Unit Tests
+      run: ctest --test-dir ${{github.workspace}}/build -VV
