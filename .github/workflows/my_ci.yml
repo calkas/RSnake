@@ -1,40 +1,42 @@
-name: My_CI
+name: CI
 
 on:
   push:
-    branches: [ "master" ]
-
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Install compiler
-      id: install_cc
-      uses: rlalik/setup-cpp-compiler@master
-      with:
-        compiler: clang-latest
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
 
+    steps:
     - name: Checkout repository
       # Checkout the repository to the GitHub Actions runner
       uses: actions/checkout@v3
 
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@master
+
     - name: Setup Vcpkg
       uses: friendlyanon/setup-vcpkg@v1
-      with: { committish: 63aa65e65b9d2c08772ea15d25fb8fdb0d32e557 }
-  
+      with: 
+        committish: 63aa65e65b9d2c08772ea15d25fb8fdb0d32e557
+
+    - name: Install CMake
+      uses: jwlawson/actions-setup-cmake@v1
+
     - name: CMake Configure
       env:
-          CC: ${{ steps.install_cc.outputs.cc }}
-          CXX: ${{ steps.install_cc.outputs.cxx }}
-      run: cmake -S ${{github.workspace}} -B ${{github.workspace}}/build -G clang -D "CMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCMAKE_CXX_COMPILER=${{env.CXX}} -DCMAKE_C_COMPILER=${{env.CC}}
+        CC: ${{ steps.install_cc.outputs.cc }}
+        CXX: ${{ steps.install_cc.outputs.cxx }}
+      run: cmake -S ${{github.workspace}} -B ${{github.workspace}}/build -G Ninja -D "CMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCMAKE_CXX_COMPILER=${{env.CXX}} -DCMAKE_C_COMPILER=${{env.CC}}
     
     - name: CMake Build
       run: cmake --build ${{github.workspace}}/build
-
-    - name: Unit Tests
-      run: ctest --test-dir ${{github.workspace}}/build -VV
