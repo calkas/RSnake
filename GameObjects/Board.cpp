@@ -3,7 +3,6 @@
 #include "Collider.hpp"
 #include "DBoardWall.hpp"
 #include <cassert>
-#include <iostream>
 
 namespace RSnakeGame
 {

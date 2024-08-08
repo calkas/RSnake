@@ -5,7 +5,6 @@
 #include "DrawableBlock.hpp"
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 
 namespace RSnakeGame
 {

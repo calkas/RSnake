@@ -3,7 +3,6 @@
 #include "Collider.hpp"
 #include "DSnakeBody.hpp"
 #include "DrawableBlock.hpp"
-#include <iostream>
 
 namespace RSnakeGame
 {
@@ -36,9 +35,6 @@ void Snake::AddBodyElement()
 
 void Snake::Update()
 {
-    if (m_onHoldFlag)
-        return;
-
     auto newPoint = GetHeadCoordinates();
     auto point = ConvertDirectionToVector(m_SnakeDir);
     point.multiply(SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT);
@@ -62,9 +58,6 @@ void Snake::Draw()
 
 bool Snake::IsCollision()
 {
-    if (m_onHoldFlag)
-        return false;
-
     for (auto bodyElementIt = m_SnakeBody.begin() + 1; bodyElementIt != m_SnakeBody.end(); bodyElementIt++)
     {
         if (m_SnakeBody[0]->position.x == (*bodyElementIt)->position.x &&
@@ -88,10 +81,6 @@ Point2D Snake::GetHeadCoordinates() const
 
 void Snake::Move(Direction snakeDir)
 {
-    if (m_SnakeDir != snakeDir)
-    {
-        m_onHoldFlag = false;
-    }
     m_SnakeDir = snakeDir;
 }
 

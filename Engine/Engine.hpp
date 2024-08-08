@@ -41,7 +41,8 @@ class Engine
     Fruit &m_rFruit;
     ScoreBoard &m_rScoreBoard;
     std::unique_ptr<IControl> m_pControl;
-    bool m_GameRunning;
+    bool m_GameRunning{true};
+    bool m_PauseFlag{true};
 };
 
 } // namespace RSnakeGame

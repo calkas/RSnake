@@ -14,7 +14,7 @@ namespace RSnakeGame
 Engine::Engine(sf::RenderWindow &rGameWindow, sf::Font &rFont, Board &rBoard, Snake &rSnake, Fruit &rFruit,
                ScoreBoard &rScoreBoard, std::unique_ptr<IControl> pControl)
     : m_rWindow(rGameWindow), m_rFont(rFont), m_rGameBoard(rBoard), m_rSnake(rSnake), m_rFruit(rFruit),
-      m_rScoreBoard(rScoreBoard), m_pControl(std::move(pControl)), m_GameRunning(true)
+      m_rScoreBoard(rScoreBoard), m_pControl(std::move(pControl))
 {
 }
 
@@ -36,6 +36,7 @@ void Engine::GameLoop()
         {
             if (event.type == sf::Event::KeyPressed)
             {
+                m_PauseFlag = false;
                 ProcessInput();
             }
             if (event.type == sf::Event::Closed)
@@ -46,8 +47,11 @@ void Engine::GameLoop()
 
         while (lag >= 0.1)
         {
-            HandleObjectCollision();
-            Update();
+            if (!m_PauseFlag)
+            {
+                HandleObjectCollision();
+                Update();
+            }
             lag -= 0.1;
         }
         Render();
