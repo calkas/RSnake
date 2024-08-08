@@ -10,26 +10,31 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Install compiler
+      id: install_cc
+      uses: rlalik/setup-cpp-compiler@master
+      with:
+        compiler: clang-latest
+
+    - name: Checkout repository
+      # Checkout the repository to the GitHub Actions runner
+      uses: actions/checkout@v3
+
+    - name: Setup Vcpkg
+    - uses: friendlyanon/setup-vcpkg@v1
+      with: { committish: 63aa65e65b9d2c08772ea15d25fb8fdb0d32e557 }
+  
+    - name: CMake Configure
+      env:
+          CC: ${{ steps.install_cc.outputs.cc }}
+          CXX: ${{ steps.install_cc.outputs.cxx }}
+      run: cmake -S ${{github.workspace}} -B ${{github.workspace}}/build -G Ninja -D "CMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCMAKE_CXX_COMPILER=${{env.CXX}} -DCMAKE_C_COMPILER=${{env.CC}}
     
-    - name: Create Build folder
-      run: mkdir build
+    - name: CMake Build
+      run: cmake --build ${{github.workspace}}/build
 
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}}
-
+    - name: Unit Tests
+      run: ctest --test-dir ${{github.workspace}}/build -VV
