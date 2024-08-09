@@ -25,11 +25,9 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       uses: actions/checkout@v3
 
-    - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@master
-
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y ninja-build
+      # Unix Makefiles to use make
+      run: sudo apt-get update && sudo apt-get install -y build-essential
 
     - name: Setup Vcpkg
       uses: friendlyanon/setup-vcpkg@v1
@@ -43,7 +41,7 @@ jobs:
       env:
         CC: ${{ steps.install_cc.outputs.cc }}
         CXX: ${{ steps.install_cc.outputs.cxx }}
-      run: cmake -S ${{github.workspace}} -B ${{github.workspace}}/build -G Ninja -D "CMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCMAKE_CXX_COMPILER=${{env.CXX}} -DCMAKE_C_COMPILER=${{env.CC}}
+      run: cmake -S ${{github.workspace}} -B ${{github.workspace}}/build -G Unix Makefiles -D "CMAKE_TOOLCHAIN_FILE=${{env.VCPKG_ROOT}}/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.configuration }} -DCMAKE_CXX_COMPILER=${{env.CXX}} -DCMAKE_C_COMPILER=${{env.CC}}
     
     - name: CMake Build
       run: cmake --build ${{github.workspace}}/build
