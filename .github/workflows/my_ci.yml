@@ -27,7 +27,7 @@ jobs:
 
     - name: Install dependencies
       # Unix Makefiles to use make
-      run: sudo apt-get update && sudo apt-get install -y build-essential
+      run: sudo apt-get update && sudo apt-get install -y build-essential libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev
 
     - name: Setup Vcpkg
       uses: friendlyanon/setup-vcpkg@v1
