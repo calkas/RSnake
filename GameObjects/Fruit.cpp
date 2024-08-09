@@ -9,9 +9,10 @@
 namespace RSnakeGame
 {
 
-const int FRUIT_BODY_HEIGHT = BlockFactory::SIMPLE_BLOCK_HEIGHT;
-const int FRUIT_BODY_WIDTH = BlockFactory::SIMPLE_BLOCK_WIDTH;
-bool Fruit::SEEDED_FOR_SRAND = false;
+bool Fruit::SEEDED_FOR_SRAND{false};
+
+static int FRUIT_BODY_WIDTH{BlockFactory::SIMPLE_BLOCK_WIDTH};
+static int FRUIT_BODY_HEIGHT{BlockFactory::SIMPLE_BLOCK_HEIGHT};
 
 Fruit::Fruit(int screenWidth, int screenHeight)
     : m_MaxGenPosX(screenWidth), m_MaxGenPosY(screenHeight), m_SnakeAteFruitFlag(false)

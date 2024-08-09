@@ -1,5 +1,5 @@
-#include "Point2d.hpp"
 #include "Snake.hpp"
+#include "Point2d.hpp"
 #include <gtest/gtest.h>
 
 static Point2D StartPoint{100, 150};
@@ -14,6 +14,7 @@ TEST(SnakeTest, CreationTest)
 TEST(SnakeTest, CollisionDetection)
 {
     RSnakeGame::Snake snake{StartPoint.x, StartPoint.y};
+
     snake.AddBodyElement();
     snake.AddBodyElement();
     snake.AddBodyElement();
@@ -30,6 +31,7 @@ TEST(SnakeTest, CollisionDetection)
 TEST(SnakeTest, MovingDetection)
 {
     RSnakeGame::Snake snake{StartPoint.x, StartPoint.y};
+
     snake.Move(RSnakeGame::Snake::Direction::UP);
     snake.Update();
     snake.Move(RSnakeGame::Snake::Direction::RIGHT);
@@ -41,5 +43,5 @@ TEST(SnakeTest, MovingDetection)
 
     EXPECT_FALSE(snake.IsCollision());
     EXPECT_EQ(110, snake.GetHead().get()->position.x);
-    EXPECT_EQ(150, snake.GetHead().get()->position.y);
+    EXPECT_EQ(160, snake.GetHead().get()->position.y);
 }

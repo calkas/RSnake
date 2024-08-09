@@ -7,8 +7,8 @@
 namespace RSnakeGame
 {
 
-const int BOARD_WALL_WIDTH = BlockFactory::SIMPLE_BLOCK_WIDTH;
-const int BOARD_WALL_HEIGHT = BlockFactory::SIMPLE_BLOCK_HEIGHT;
+static constexpr int BOARD_WALL_WIDTH{BlockFactory::SIMPLE_BLOCK_WIDTH};
+static constexpr int BOARD_WALL_HEIGHT{BlockFactory::SIMPLE_BLOCK_HEIGHT};
 
 Board::Board(int height, int width) : m_height(height), m_width(width)
 {

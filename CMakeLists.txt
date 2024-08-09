@@ -22,8 +22,17 @@ add_subdirectory(GameObjects)
 
 add_executable(RSnake main.cpp)
 
-target_link_libraries(RSnake PRIVATE Control)
-target_link_libraries(RSnake PRIVATE Drawable)
-target_link_libraries(RSnake PRIVATE Engine)
-target_link_libraries(RSnake PRIVATE GameObjects)
-target_link_libraries(RSnake PRIVATE sfml-system sfml-graphics sfml-window)
+target_link_libraries(RSnake 
+     PRIVATE 
+          Control
+          Drawable
+          Engine
+          GameObjects
+)
+
+target_link_libraries(RSnake 
+     PRIVATE
+          sfml-system 
+          sfml-graphics 
+          sfml-window
+)
