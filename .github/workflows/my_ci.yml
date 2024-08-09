@@ -4,25 +4,32 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest]
         configuration: [Debug, Release]
+        compiler: [clang]
 
     steps:
+    - name: Install compiler
+      id: install_cc
+      uses: rlalik/setup-cpp-compiler@master
+      with:
+        compiler: clang-latest
+
     - name: Checkout repository
       # Checkout the repository to the GitHub Actions runner
       uses: actions/checkout@v3
 
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@master
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y ninja-build
 
     - name: Setup Vcpkg
       uses: friendlyanon/setup-vcpkg@v1
