@@ -1,6 +1,12 @@
 {
+    "name": "rsnake",
+    "version-string": "1.0",
     "dependencies": [
-        "sfml",
-        "gtest"
+        {
+            "name": "sfml"
+        },
+        {
+            "name": "gtest"
+        }
     ]
 }
