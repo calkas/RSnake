@@ -1,3 +1,5 @@
+add_subdirectory(UT)
+
 add_library(GameObjects STATIC
     Snake.cpp
     Board.cpp
@@ -13,5 +15,3 @@ target_link_libraries(GameObjects
     PRIVATE 
         Drawable
 )
-
-add_subdirectory(UT)

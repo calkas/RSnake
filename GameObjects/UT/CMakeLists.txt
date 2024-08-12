@@ -3,8 +3,7 @@ add_executable(UT SnakeTest.cpp FruitTest.cpp BoardTest.cpp)
 
 target_link_libraries(UT 
     PRIVATE
-        Drawable
-        GameObjects 
+        GameObjects
         GTest::gtest
         GTest::gtest_main
         GTest::gmock
@@ -18,4 +17,4 @@ target_include_directories(UT
         "${PROJECT_SOURCE_DIR}/UT"
 )
 
-gtest_add_tests(TARGET UT)
+gtest_discover_tests(UT)
