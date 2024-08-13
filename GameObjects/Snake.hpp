@@ -28,6 +28,7 @@ class Snake
     void Move(Direction snakeDir);
 
   private:
+    bool IsForbiddenMove(Direction newDir);
     void CreateHead(Point2D coord);
     Point2D GetHeadCoordinates() const;
     Point2D ConvertDirectionToVector(Direction snakeDir);

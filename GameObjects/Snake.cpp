@@ -80,7 +80,24 @@ Point2D Snake::GetHeadCoordinates() const
 
 void Snake::Move(Direction snakeDir)
 {
+    if (IsForbiddenMove(snakeDir))
+        return;
     m_SnakeDir = snakeDir;
+}
+
+bool Snake::IsForbiddenMove(Direction newDir)
+{
+    switch (m_SnakeDir)
+    {
+    case Direction::UP:
+        return newDir == Direction::DOWN;
+    case Direction::DOWN:
+        return newDir == Direction::UP;
+    case Direction::LEFT:
+        return newDir == Direction::RIGHT;
+    case Direction::RIGHT:
+        return newDir == Direction::LEFT;
+    }
 }
 
 void Snake::CreateHead(Point2D coord)

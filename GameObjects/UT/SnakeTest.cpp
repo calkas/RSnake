@@ -45,3 +45,31 @@ TEST(SnakeTest, MovingDetection)
     EXPECT_EQ(110, snake.GetHead().get()->position.x);
     EXPECT_EQ(160, snake.GetHead().get()->position.y);
 }
+
+TEST(SnakeTest, ForbiddenMoveCheck)
+{
+    RSnakeGame::Snake snake{StartPoint.x, StartPoint.y};
+    snake.Move(RSnakeGame::Snake::Direction::UP);
+    snake.Update();
+
+    EXPECT_EQ(100, snake.GetHead().get()->position.x);
+    EXPECT_EQ(140, snake.GetHead().get()->position.y);
+
+    snake.Move(RSnakeGame::Snake::Direction::DOWN);
+    snake.Update();
+
+    EXPECT_EQ(100, snake.GetHead().get()->position.x);
+    EXPECT_EQ(130, snake.GetHead().get()->position.y);
+
+    snake.Move(RSnakeGame::Snake::Direction::LEFT);
+    snake.Update();
+
+    EXPECT_EQ(90, snake.GetHead().get()->position.x);
+    EXPECT_EQ(130, snake.GetHead().get()->position.y);
+
+    snake.Move(RSnakeGame::Snake::Direction::RIGHT);
+    snake.Update();
+
+    EXPECT_EQ(80, snake.GetHead().get()->position.x);
+    EXPECT_EQ(130, snake.GetHead().get()->position.y);
+}
