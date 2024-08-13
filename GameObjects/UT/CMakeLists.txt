@@ -8,6 +8,13 @@ target_link_libraries(UT
         GTest::gtest_main
         GTest::gmock
         GTest::gmock_main
+        # this stuff is needed for the OpenGL context on github actions :(
+        ${OPENGL_gl_LIBRARY}
+        ${CMAKE_DL_LIBS}
+        X11
+        Xrandr
+        GL
+        GLU
 )
 
 target_include_directories(UT 

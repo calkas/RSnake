@@ -2,7 +2,6 @@
 #include "BlockFactory.hpp"
 #include "Collider.hpp"
 #include "DSnakeBody.hpp"
-#include "DrawableBlock.hpp"
 
 namespace RSnakeGame
 {
