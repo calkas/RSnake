@@ -4,6 +4,7 @@ add_library(Drawable STATIC
     DBoardWall.cpp
     DSnakeBody.cpp
     DFruit.cpp
+    ResourceManager.cpp
 )
 
 target_link_libraries(Drawable 

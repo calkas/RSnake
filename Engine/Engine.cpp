@@ -2,6 +2,7 @@
 #include "Board.hpp"
 #include "Fruit.hpp"
 #include "IControl.hpp"
+#include "ResourceManager.hpp"
 #include "ScoreBoard.hpp"
 #include "Snake.hpp"
 #include <SFML/Graphics.hpp>
@@ -11,10 +12,10 @@
 namespace RSnakeGame
 {
 
-Engine::Engine(sf::RenderWindow &rGameWindow, sf::Font &rFont, Board &rBoard, Snake &rSnake, Fruit &rFruit,
-               ScoreBoard &rScoreBoard, std::unique_ptr<IControl> pControl)
-    : m_rWindow(rGameWindow), m_rFont(rFont), m_rGameBoard(rBoard), m_rSnake(rSnake), m_rFruit(rFruit),
-      m_rScoreBoard(rScoreBoard), m_pControl(std::move(pControl))
+Engine::Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
+               std::unique_ptr<IControl> pControl)
+    : m_rWindow(rGameWindow), m_rGameBoard(rBoard), m_rSnake(rSnake), m_rFruit(rFruit), m_rScoreBoard(rScoreBoard),
+      m_pControl(std::move(pControl))
 {
 }
 
@@ -114,18 +115,23 @@ void Engine::HandleObjectCollision()
 
 void Engine::UserBoardUi()
 {
+    auto font = ResourceManager::Instance()->GetFont("Basic_font");
     sf::Text titleText;
+    sf::Text scoreText;
+    if (font != nullptr)
+    {
+        titleText.setFont(*font);
+        scoreText.setFont(*font);
+    }
+
     titleText.setString("RSnake Game");
     titleText.setCharacterSize(24);
     titleText.setFillColor(sf::Color::Magenta);
-    titleText.setFont(m_rFont);
     titleText.setPosition(m_rGameBoard.m_width + 10, 10);
 
-    sf::Text scoreText;
     scoreText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::White);
-    scoreText.setFont(m_rFont);
     scoreText.setPosition(m_rGameBoard.m_width + 10, m_rGameBoard.m_height - 50);
 
     m_rWindow.draw(titleText);
@@ -136,12 +142,13 @@ void Engine::GameOverUi()
 {
 
     sf::Text gameOverText;
+    auto font = ResourceManager::Instance()->GetFont("Basic_font");
     gameOverText.setString("   Game Over   \n Your Score: " + std::to_string(m_rScoreBoard.GetScore()));
     gameOverText.setCharacterSize(28);
     gameOverText.setFillColor(sf::Color::Red);
     gameOverText.setPosition((m_rGameBoard.m_width / 2) - 100, m_rGameBoard.m_height / 2);
-    gameOverText.setFont(m_rFont);
-
+    if (font != nullptr)
+        gameOverText.setFont(*font);
     while (m_rWindow.isOpen())
     {
         sf::Event event;
