@@ -8,11 +8,16 @@ DFruit::DFruit(Point2D coord, int w, int h, sf::RenderWindow *pRenderWindow) : D
 {
 }
 
+void DFruit::SetTexture(sf::Shape *pShape)
+{
+    pShape->setFillColor(sf::Color::Red);
+}
+
 void DFruit::Draw()
 {
     sf::RectangleShape fruit(sf::Vector2f(width, height));
     fruit.move(sf::Vector2f(position.x_f(), position.y_f()));
-    fruit.setFillColor(sf::Color::Red);
+    SetTexture(&fruit);
     pRenderer->draw(fruit);
 }
 

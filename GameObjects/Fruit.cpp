@@ -1,6 +1,7 @@
 #include "Fruit.hpp"
 #include "BlockFactory.hpp"
 #include "Collider.hpp"
+#include "Constans.hpp"
 #include "DFruit.hpp"
 #include "DrawableBlock.hpp"
 #include <cstdlib>
@@ -62,7 +63,6 @@ bool Fruit::WasEaten(std::shared_ptr<DrawableBlock> object)
 
 void Fruit::CreateFruit(Point2D coord)
 {
-    m_pFruit = std::move(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::FRUIT, coord, FRUIT_BODY_WIDTH,
-                                                               FRUIT_BODY_HEIGHT));
+    m_pFruit = BlockFactory::Instance()->CreateBlock(BlockType::FRUIT, coord, FRUIT_BODY_WIDTH, FRUIT_BODY_HEIGHT);
 }
 } // namespace RSnakeGame

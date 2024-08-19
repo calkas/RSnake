@@ -35,4 +35,17 @@ enum class Direction
     RIGHT,
 };
 
+enum class BlockType
+{
+    FRUIT,
+    BOARD
+};
+
+enum class SnakeBlockType
+{
+    HEAD,
+    BODY,
+    TAIL
+};
+
 } // namespace RSnakeGame

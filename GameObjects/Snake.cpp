@@ -11,9 +11,7 @@ static const int SNAKE_BLOCK_BODY_HEIGHT = BlockFactory::Instance()->SIMPLE_BLOC
 
 Snake::Snake(int startPosX, int startPosY)
 {
-    CreateHead(Point2D{startPosX, startPosY});
-    AddBodyElement();
-    AddBodyElement();
+    Create(Point2D{startPosX, startPosY});
 }
 
 Snake::~Snake()
@@ -25,11 +23,18 @@ void Snake::AddBodyElement()
     auto point = ConvertDirectionToVector(m_SnakeDir);
     point.multiply(SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT);
     auto lastElementIterator = m_SnakeBody.end() - 1;
+    // Remove tail
+    m_SnakeBody.pop_back();
     Point2D last = (*lastElementIterator)->position;
+
+    // Add body element + new tail element
+    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
+        SnakeBlockType::BODY, m_SnakeDir, last, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+
     last = last + point;
 
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::SNAKE_BODY, last,
-                                                                SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
+        SnakeBlockType::TAIL, m_SnakeDir, last, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
 }
 
 void Snake::Update()
@@ -100,10 +105,20 @@ bool Snake::IsForbiddenMove(Direction newDir)
     }
 }
 
-void Snake::CreateHead(Point2D coord)
+void Snake::Create(Point2D point)
 {
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::SNAKE_BODY, coord,
-                                                                SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
+        SnakeBlockType::HEAD, m_SnakeDir, point, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+
+    point.x = point.x + SNAKE_BLOCK_BODY_WIDTH;
+
+    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
+        SnakeBlockType::BODY, m_SnakeDir, point, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+
+    point.x = point.x + SNAKE_BLOCK_BODY_WIDTH;
+
+    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
+        SnakeBlockType::TAIL, m_SnakeDir, point, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
 }
 
 Point2D Snake::ConvertDirectionToVector(Direction snakeDir)

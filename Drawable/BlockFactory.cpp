@@ -1,5 +1,5 @@
 #include "BlockFactory.hpp"
-#include "DBoardWall.hpp"
+#include "DBoard.hpp"
 #include "DFruit.hpp"
 #include "DSnakeBody.hpp"
 #include <SFML/Graphics.hpp>
@@ -12,21 +12,33 @@ BlockFactory *BlockFactory::Instance()
     return &instance;
 }
 
-std::unique_ptr<DrawableBlock> BlockFactory::CreateBlock(BlockType blockType, Point2D coord, int w, int h)
+std::shared_ptr<DrawableBlock> BlockFactory::CreateBlock(BlockType blockType, Point2D coord, int w, int h)
 {
     switch (blockType)
     {
-    case BlockType::SNAKE_BODY:
-        return std::make_unique<DSnakeBody>(coord, w, h, pRenderWindow);
     case BlockType::FRUIT:
-        return std::make_unique<DFruit>(coord, w, h, pRenderWindow);
-    case BlockType::BOARD_WALL:
-        return std::make_unique<DBoardWall>(coord, w, h, pRenderWindow);
+        return std::make_shared<DFruit>(coord, w, h, pRenderWindow);
+    case BlockType::BOARD:
+        return std::make_shared<DBoard>(coord, w, h, pRenderWindow);
     }
 }
 void BlockFactory::SetRenderer(sf::RenderWindow *pRenderer)
 {
     pRenderWindow = pRenderer;
+}
+
+std::shared_ptr<DrawableBlock> BlockFactory::CreateSnakeBodyBlock(SnakeBlockType snakeBodyType, Direction snakeDir,
+                                                                  Point2D coord, int w, int h)
+{
+    switch (snakeBodyType)
+    {
+    case SnakeBlockType::HEAD:
+        return std::make_shared<DSnakeBody>(coord, w, h, pRenderWindow, snakeBodyType, snakeDir);
+    case SnakeBlockType::BODY:
+        return std::make_shared<DSnakeBody>(coord, w, h, pRenderWindow, snakeBodyType, snakeDir);
+    case SnakeBlockType::TAIL:
+        return std::make_shared<DSnakeBody>(coord, w, h, pRenderWindow, snakeBodyType, snakeDir);
+    }
 }
 
 } // namespace RSnakeGame

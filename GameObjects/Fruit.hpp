@@ -21,7 +21,7 @@ class Fruit
   private:
     Point2D GenerateCoordinates() const;
     void CreateFruit(Point2D coord);
-    std::unique_ptr<DrawableBlock> m_pFruit;
+    std::shared_ptr<DrawableBlock> m_pFruit;
     int m_MaxGenPosX;
     int m_MaxGenPosY;
     bool m_SnakeAteFruitFlag;

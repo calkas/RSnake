@@ -11,6 +11,7 @@ class DrawableBlockMock : public DrawableBlock
     {
     }
     ~DrawableBlockMock() = default;
+    MOCK_METHOD(void, SetTexture, (sf::Shape * pShape), (override));
     MOCK_METHOD(void, Draw, (), (override));
 };
 } // namespace RSnakeGame

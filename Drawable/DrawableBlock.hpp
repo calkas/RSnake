@@ -3,7 +3,8 @@
 namespace sf
 {
 class RenderWindow;
-}
+class Shape;
+} // namespace sf
 
 namespace RSnakeGame
 {
@@ -15,6 +16,7 @@ class DrawableBlock
     {
     }
     virtual ~DrawableBlock() = default;
+    virtual void SetTexture(sf::Shape *pShape) = 0;
     virtual void Draw() = 0;
     Point2D position;
     int width, height;

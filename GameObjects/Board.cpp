@@ -1,7 +1,8 @@
 #include "Board.hpp"
 #include "BlockFactory.hpp"
 #include "Collider.hpp"
-#include "DBoardWall.hpp"
+#include "Constans.hpp"
+#include "DBoard.hpp"
 #include <cassert>
 
 namespace RSnakeGame
@@ -62,8 +63,8 @@ bool Board::IsCollision(std::shared_ptr<DrawableBlock> object) const
 
 void Board::CreateWallBlock(const int x, const int y)
 {
-    m_Walls.push_back(BlockFactory::Instance()->CreateBlock(BlockFactory::BlockType::BOARD_WALL, Point2D{x, y},
-                                                            BOARD_WALL_WIDTH, BOARD_WALL_HEIGHT));
+    m_Walls.push_back(
+        BlockFactory::Instance()->CreateBlock(BlockType::BOARD, Point2D{x, y}, BOARD_WALL_WIDTH, BOARD_WALL_HEIGHT));
 }
 
 } // namespace RSnakeGame

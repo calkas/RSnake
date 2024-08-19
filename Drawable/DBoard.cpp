@@ -1,15 +1,18 @@
-#include "DBoardWall.hpp"
+#include "DBoard.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace RSnakeGame
 {
 
-DBoardWall::DBoardWall(Point2D coord, int w, int h, sf::RenderWindow *pRenderWindow)
-    : DrawableBlock(coord, w, h, pRenderWindow)
+DBoard::DBoard(Point2D coord, int w, int h, sf::RenderWindow *pRenderWindow) : DrawableBlock(coord, w, h, pRenderWindow)
 {
 }
 
-void DBoardWall::Draw()
+void DBoard::SetTexture(sf::Shape *pShape)
+{
+}
+
+void DBoard::Draw()
 {
     sf::RectangleShape wallBrick(sf::Vector2f(width, height));
     wallBrick.move(sf::Vector2f(position.x_f(), position.y_f()));

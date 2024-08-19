@@ -9,10 +9,10 @@ class Shape;
 
 namespace RSnakeGame
 {
-class DFruit : public DrawableBlock
+class DBoard : public DrawableBlock
 {
   public:
-    DFruit(Point2D coord, int w, int h, sf::RenderWindow *pRenderWindow);
+    DBoard(Point2D coord, int w, int h, sf::RenderWindow *pRenderWindow);
     virtual void SetTexture(sf::Shape *pShape) override;
     virtual void Draw() override;
 };

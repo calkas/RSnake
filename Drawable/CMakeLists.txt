@@ -1,7 +1,7 @@
 add_library(Drawable STATIC
     BlockFactory.cpp
     Collider.cpp
-    DBoardWall.cpp
+    DBoard.cpp
     DSnakeBody.cpp
     DFruit.cpp
     ResourceManager.cpp

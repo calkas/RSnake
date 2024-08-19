@@ -23,11 +23,11 @@ class Snake
 
   private:
     bool IsForbiddenMove(Direction newDir);
-    void CreateHead(Point2D coord);
+    void Create(Point2D point);
     Point2D GetHeadCoordinates() const;
     Point2D ConvertDirectionToVector(Direction snakeDir);
     std::vector<std::shared_ptr<DrawableBlock>> m_SnakeBody{};
-    Direction m_SnakeDir{Direction::RIGHT};
+    Direction m_SnakeDir{Direction::LEFT};
     bool m_onHoldFlag{true};
 };
 } // namespace RSnakeGame
