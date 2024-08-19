@@ -1,4 +1,5 @@
 #pragma once
+#include "Constans.hpp"
 #include "DrawableBlock.hpp"
 #include "Point2d.hpp"
 #include <memory>
@@ -10,13 +11,6 @@ namespace RSnakeGame
 class Snake
 {
   public:
-    enum class Direction
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-    };
     Snake(int startPosX, int startPosY);
     ~Snake();
 

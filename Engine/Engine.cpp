@@ -1,5 +1,6 @@
 #include "Engine.hpp"
 #include "Board.hpp"
+#include "Constans.hpp"
 #include "Fruit.hpp"
 #include "IControl.hpp"
 #include "ResourceManager.hpp"
@@ -67,13 +68,13 @@ void Engine::GameLoop()
 void Engine::ProcessInput()
 {
     if (m_pControl->isUpPressed())
-        m_rSnake.Move(Snake::Direction::UP);
+        m_rSnake.Move(Direction::UP);
     else if (m_pControl->isDownPressed())
-        m_rSnake.Move(Snake::Direction::DOWN);
+        m_rSnake.Move(Direction::DOWN);
     else if (m_pControl->isLeftPressed())
-        m_rSnake.Move(Snake::Direction::LEFT);
+        m_rSnake.Move(Direction::LEFT);
     else if (m_pControl->isRightPressed())
-        m_rSnake.Move(Snake::Direction::RIGHT);
+        m_rSnake.Move(Direction::RIGHT);
 }
 
 void Engine::Update()
@@ -115,13 +116,13 @@ void Engine::HandleObjectCollision()
 
 void Engine::UserBoardUi()
 {
-    auto font = ResourceManager::Instance()->GetFont("Basic_font");
+    auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
     sf::Text titleText;
     sf::Text scoreText;
-    if (font != nullptr)
+    if (font.has_value())
     {
-        titleText.setFont(*font);
-        scoreText.setFont(*font);
+        titleText.setFont(*font.value());
+        scoreText.setFont(*font.value());
     }
 
     titleText.setString("RSnake Game");
@@ -142,13 +143,13 @@ void Engine::GameOverUi()
 {
 
     sf::Text gameOverText;
-    auto font = ResourceManager::Instance()->GetFont("Basic_font");
+    auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
     gameOverText.setString("   Game Over   \n Your Score: " + std::to_string(m_rScoreBoard.GetScore()));
     gameOverText.setCharacterSize(28);
     gameOverText.setFillColor(sf::Color::Red);
     gameOverText.setPosition((m_rGameBoard.m_width / 2) - 100, m_rGameBoard.m_height / 2);
-    if (font != nullptr)
-        gameOverText.setFont(*font);
+    if (font.has_value())
+        gameOverText.setFont(*font.value());
     while (m_rWindow.isOpen())
     {
         sf::Event event;

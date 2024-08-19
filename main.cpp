@@ -1,6 +1,7 @@
 
 #include "BlockFactory.hpp"
 #include "Board.hpp"
+#include "Constans.hpp"
 #include "Engine.hpp"
 #include "Fruit.hpp"
 #include "IControl.hpp"
@@ -11,22 +12,29 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <memory>
+#include <string>
 
-static const int WIDTH_GAME_BOARD_SIZE{600};
-static const int HEIGHT_GAME_BOARD_SIZE{400};
+static void LoadResources()
+{
+    // Load Fonts
+    std::filesystem::path fontPath = std::string(RSnakeGame::Font::PATH) + std::string("Roboto-Bold.ttf");
+    RSnakeGame::ResourceManager::Instance()->LoadFont(fontPath, RSnakeGame::Font::GLOBAL);
+
+    // Load Textures
+}
 
 int main()
 {
-    sf::RenderWindow gameWindow(sf::VideoMode(WIDTH_GAME_BOARD_SIZE + 200, HEIGHT_GAME_BOARD_SIZE), "RSnake");
-
     std::cout << "Welcome to Snake Game" << std::endl;
+    sf::RenderWindow gameWindow(sf::VideoMode(RSnakeGame::Resolution::WIDTH + 200, RSnakeGame::Resolution::HEIGHT),
+                                RSnakeGame::TITLE);
 
-    std::filesystem::path path = "./Assets/Fonts/Roboto-Bold.ttf";
-    RSnakeGame::ResourceManager::Instance()->LoadFont(path, "Basic_font");
+    LoadResources();
+
     RSnakeGame::BlockFactory::Instance()->SetRenderer(&gameWindow);
-    RSnakeGame::Board gameBoard{HEIGHT_GAME_BOARD_SIZE, WIDTH_GAME_BOARD_SIZE};
-    RSnakeGame::Snake snake{WIDTH_GAME_BOARD_SIZE / 2, HEIGHT_GAME_BOARD_SIZE / 2};
-    RSnakeGame::Fruit fruit{WIDTH_GAME_BOARD_SIZE - 2, HEIGHT_GAME_BOARD_SIZE - 2};
+    RSnakeGame::Board gameBoard{RSnakeGame::Resolution::HEIGHT, RSnakeGame::Resolution::WIDTH};
+    RSnakeGame::Snake snake{RSnakeGame::Resolution::WIDTH / 2, RSnakeGame::Resolution::HEIGHT / 2};
+    RSnakeGame::Fruit fruit{RSnakeGame::Resolution::WIDTH - 2, RSnakeGame::Resolution::HEIGHT - 2};
     RSnakeGame::ScoreBoard scoreBoard;
 
     std::unique_ptr<RSnakeGame::IControl> pControl = std::make_unique<RSnakeGame::InputControl>();

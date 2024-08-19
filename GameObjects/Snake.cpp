@@ -110,13 +110,13 @@ Point2D Snake::ConvertDirectionToVector(Direction snakeDir)
 {
     switch (snakeDir)
     {
-    case Snake::Direction::UP:
+    case Direction::UP:
         return {0, -1};
-    case Snake::Direction::DOWN:
+    case Direction::DOWN:
         return {0, 1};
-    case Snake::Direction::LEFT:
+    case Direction::LEFT:
         return {-1, 0};
-    case Snake::Direction::RIGHT:
+    case Direction::RIGHT:
         return {1, 0};
     }
 }

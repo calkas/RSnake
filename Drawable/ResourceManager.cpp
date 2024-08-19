@@ -27,22 +27,22 @@ bool ResourceManager::LoadFont(std::filesystem::path &path, std::string_view fon
     return true;
 }
 
-std::shared_ptr<sf::Texture> ResourceManager::GetTexture(std::string_view textureName) const
+std::optional<std::shared_ptr<sf::Texture>> ResourceManager::GetTexture(std::string_view textureName) const
 {
     if (m_Textures.contains(textureName.data()))
     {
         return m_Textures.at(textureName.data());
     }
 
-    return nullptr;
+    return std::nullopt;
 }
-std::shared_ptr<sf::Font> ResourceManager::GetFont(std::string_view fontName) const
+std::optional<std::shared_ptr<sf::Font>> ResourceManager::GetFont(std::string_view fontName) const
 {
     if (m_Fonts.contains(fontName.data()))
     {
         return m_Fonts.at(fontName.data());
     }
-    return nullptr;
+    return std::nullopt;
 }
 
 } // namespace RSnakeGame

@@ -1,4 +1,5 @@
 #include "Snake.hpp"
+#include "Constans.hpp"
 #include "Point2d.hpp"
 #include <gtest/gtest.h>
 
@@ -18,11 +19,11 @@ TEST(SnakeTest, CollisionDetection)
     snake.AddBodyElement();
     snake.AddBodyElement();
     snake.AddBodyElement();
-    snake.Move(RSnakeGame::Snake::Direction::UP);
+    snake.Move(RSnakeGame::Direction::UP);
     snake.Update();
-    snake.Move(RSnakeGame::Snake::Direction::RIGHT);
+    snake.Move(RSnakeGame::Direction::RIGHT);
     snake.Update();
-    snake.Move(RSnakeGame::Snake::Direction::DOWN);
+    snake.Move(RSnakeGame::Direction::DOWN);
     snake.Update();
 
     EXPECT_TRUE(snake.IsCollision());
@@ -32,13 +33,13 @@ TEST(SnakeTest, MovingDetection)
 {
     RSnakeGame::Snake snake{StartPoint.x, StartPoint.y};
 
-    snake.Move(RSnakeGame::Snake::Direction::UP);
+    snake.Move(RSnakeGame::Direction::UP);
     snake.Update();
-    snake.Move(RSnakeGame::Snake::Direction::RIGHT);
+    snake.Move(RSnakeGame::Direction::RIGHT);
     snake.Update();
-    snake.Move(RSnakeGame::Snake::Direction::DOWN);
+    snake.Move(RSnakeGame::Direction::DOWN);
     snake.Update();
-    snake.Move(RSnakeGame::Snake::Direction::DOWN);
+    snake.Move(RSnakeGame::Direction::DOWN);
     snake.Update();
 
     EXPECT_FALSE(snake.IsCollision());
@@ -49,25 +50,25 @@ TEST(SnakeTest, MovingDetection)
 TEST(SnakeTest, ForbiddenMoveCheck)
 {
     RSnakeGame::Snake snake{StartPoint.x, StartPoint.y};
-    snake.Move(RSnakeGame::Snake::Direction::UP);
+    snake.Move(RSnakeGame::Direction::UP);
     snake.Update();
 
     EXPECT_EQ(100, snake.GetHead().get()->position.x);
     EXPECT_EQ(140, snake.GetHead().get()->position.y);
 
-    snake.Move(RSnakeGame::Snake::Direction::DOWN);
+    snake.Move(RSnakeGame::Direction::DOWN);
     snake.Update();
 
     EXPECT_EQ(100, snake.GetHead().get()->position.x);
     EXPECT_EQ(130, snake.GetHead().get()->position.y);
 
-    snake.Move(RSnakeGame::Snake::Direction::LEFT);
+    snake.Move(RSnakeGame::Direction::LEFT);
     snake.Update();
 
     EXPECT_EQ(90, snake.GetHead().get()->position.x);
     EXPECT_EQ(130, snake.GetHead().get()->position.y);
 
-    snake.Move(RSnakeGame::Snake::Direction::RIGHT);
+    snake.Move(RSnakeGame::Direction::RIGHT);
     snake.Update();
 
     EXPECT_EQ(80, snake.GetHead().get()->position.x);
