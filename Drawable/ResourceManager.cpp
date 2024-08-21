@@ -8,7 +8,7 @@ ResourceManager *ResourceManager::Instance()
     static ResourceManager instance;
     return &instance;
 }
-bool ResourceManager::LoadTexture(std::filesystem::path &path, std::string_view textureName)
+bool ResourceManager::LoadTexture(const std::filesystem::path &path, std::string_view textureName)
 {
     std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
     if (!texture->loadFromFile(path.string()))

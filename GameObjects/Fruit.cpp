@@ -1,9 +1,8 @@
 #include "Fruit.hpp"
-#include "BlockFactory.hpp"
 #include "Collider.hpp"
 #include "Constans.hpp"
-#include "DFruit.hpp"
-#include "DrawableBlock.hpp"
+#include "DrawableObject.hpp"
+#include "ObjectFactory.hpp"
 #include <cstdlib>
 #include <ctime>
 
@@ -11,9 +10,6 @@ namespace RSnakeGame
 {
 
 bool Fruit::SEEDED_FOR_SRAND{false};
-
-static int FRUIT_BODY_WIDTH{BlockFactory::SIMPLE_BLOCK_WIDTH};
-static int FRUIT_BODY_HEIGHT{BlockFactory::SIMPLE_BLOCK_HEIGHT};
 
 Fruit::Fruit(int screenWidth, int screenHeight)
     : m_MaxGenPosX(screenWidth), m_MaxGenPosY(screenHeight), m_SnakeAteFruitFlag(false)
@@ -41,17 +37,18 @@ void Fruit::Update()
 
 Point2D Fruit::GenerateCoordinates() const
 {
-    int x = (rand() % (m_MaxGenPosX - 3 * FRUIT_BODY_WIDTH)) + FRUIT_BODY_WIDTH;
-    int y = (rand() % (m_MaxGenPosY - 3 * FRUIT_BODY_HEIGHT)) + FRUIT_BODY_HEIGHT;
+    int x = (rand() % (m_MaxGenPosX - 3 * Texture::DEFAULT_WIDTH)) + Texture::DEFAULT_WIDTH;
+    int y = (rand() % (m_MaxGenPosY - 3 * Texture::DEFAULT_HEIGHT)) + Texture::DEFAULT_HEIGHT;
     return Point2D{x, y};
 }
 
 void Fruit::Draw() const
 {
+    m_pFruit->rotation += 0.1;
     m_pFruit->Draw();
 }
 
-bool Fruit::WasEaten(std::shared_ptr<DrawableBlock> object)
+bool Fruit::WasEaten(std::shared_ptr<DrawableObject> object)
 {
     if (Collider::Rectangle::isCollisionDetected(*m_pFruit, *object))
     {
@@ -63,6 +60,6 @@ bool Fruit::WasEaten(std::shared_ptr<DrawableBlock> object)
 
 void Fruit::CreateFruit(Point2D coord)
 {
-    m_pFruit = BlockFactory::Instance()->CreateBlock(BlockType::FRUIT, coord, FRUIT_BODY_WIDTH, FRUIT_BODY_HEIGHT);
+    m_pFruit = ObjectFactory::Instance()->CreateFruit(coord, Texture::DEFAULT_WIDTH, Texture::DEFAULT_HEIGHT, 0.0, 1.0);
 }
 } // namespace RSnakeGame

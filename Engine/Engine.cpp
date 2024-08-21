@@ -22,6 +22,7 @@ Engine::Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Frui
 
 void Engine::GameLoop()
 {
+    float speed = 0.15;
     sf::Clock gameClock;
     float previousTime = gameClock.getElapsedTime().asSeconds();
     float lag = 0.0;
@@ -47,14 +48,14 @@ void Engine::GameLoop()
             }
         }
 
-        while (lag >= 0.1)
+        while (lag >= speed)
         {
             if (!m_PauseFlag)
             {
                 HandleObjectCollision();
                 Update();
             }
-            lag -= 0.1;
+            lag -= speed;
         }
         Render();
     }

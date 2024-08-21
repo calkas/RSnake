@@ -9,7 +9,7 @@ class Font;
 
 namespace RSnakeGame
 {
-class DrawableBlock;
+class DrawableObject;
 class Board;
 class Snake;
 class Fruit;

@@ -22,7 +22,7 @@ class ResourceManager
   public:
     static ResourceManager *Instance();
 
-    bool LoadTexture(std::filesystem::path &path, std::string_view textureName);
+    bool LoadTexture(const std::filesystem::path &path, std::string_view textureName);
     bool LoadFont(std::filesystem::path &path, std::string_view fontName);
 
     std::optional<std::shared_ptr<sf::Texture>> GetTexture(std::string_view textureName) const;

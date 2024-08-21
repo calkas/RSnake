@@ -1,16 +1,11 @@
 #include "Board.hpp"
-#include "BlockFactory.hpp"
 #include "Collider.hpp"
 #include "Constans.hpp"
-#include "DBoard.hpp"
+#include "ObjectFactory.hpp"
 #include <cassert>
 
 namespace RSnakeGame
 {
-
-static constexpr int BOARD_WALL_WIDTH{BlockFactory::SIMPLE_BLOCK_WIDTH};
-static constexpr int BOARD_WALL_HEIGHT{BlockFactory::SIMPLE_BLOCK_HEIGHT};
-
 Board::Board(int height, int width) : m_height(height), m_width(width)
 {
     CreateGameBoard(height, width);
@@ -22,22 +17,22 @@ Board::~Board()
 
 void Board::CreateGameBoard(const int size_y, const int size_x)
 {
-    assert(m_height % BOARD_WALL_HEIGHT == 0);
-    assert(m_width % BOARD_WALL_WIDTH == 0);
+    assert(m_height % Texture::DEFAULT_HEIGHT == 0);
+    assert(m_width % Texture::DEFAULT_WIDTH == 0);
 
-    const int numberOfHorizontalWalls = m_width / BOARD_WALL_WIDTH;
-    const int numberOfVerticalWalls = (m_height / BOARD_WALL_HEIGHT) - 2;
+    const int numberOfHorizontalWalls = m_width / Texture::DEFAULT_WIDTH;
+    const int numberOfVerticalWalls = (m_height / Texture::DEFAULT_HEIGHT) - 2;
 
     for (int columnId = 0; columnId < numberOfHorizontalWalls; columnId++)
     {
-        CreateWallBlock(columnId * BOARD_WALL_WIDTH, 0);
-        CreateWallBlock(columnId * BOARD_WALL_WIDTH, size_y - BOARD_WALL_WIDTH);
+        CreateWallBlock(columnId * Texture::DEFAULT_WIDTH, 0);
+        CreateWallBlock(columnId * Texture::DEFAULT_WIDTH, size_y - Texture::DEFAULT_WIDTH);
     }
 
     for (int rowId = 1; rowId <= numberOfVerticalWalls; rowId++)
     {
-        CreateWallBlock(0, rowId * BOARD_WALL_HEIGHT);
-        CreateWallBlock(size_x - BOARD_WALL_WIDTH, rowId * BOARD_WALL_HEIGHT);
+        CreateWallBlock(0, rowId * Texture::DEFAULT_HEIGHT);
+        CreateWallBlock(size_x - Texture::DEFAULT_WIDTH, rowId * Texture::DEFAULT_HEIGHT);
     }
 }
 
@@ -49,7 +44,7 @@ void Board::Draw() const
     }
 }
 
-bool Board::IsCollision(std::shared_ptr<DrawableBlock> object) const
+bool Board::IsCollision(std::shared_ptr<DrawableObject> object) const
 {
     for (const auto &pWall : m_Walls)
     {
@@ -63,8 +58,8 @@ bool Board::IsCollision(std::shared_ptr<DrawableBlock> object) const
 
 void Board::CreateWallBlock(const int x, const int y)
 {
-    m_Walls.push_back(
-        BlockFactory::Instance()->CreateBlock(BlockType::BOARD, Point2D{x, y}, BOARD_WALL_WIDTH, BOARD_WALL_HEIGHT));
+    m_Walls.push_back(ObjectFactory::Instance()->CreateBoardBlock(Point2D{x, y}, Texture::DEFAULT_WIDTH,
+                                                                  Texture::DEFAULT_HEIGHT, 0, 1.0));
 }
 
 } // namespace RSnakeGame

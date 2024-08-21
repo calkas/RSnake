@@ -1,5 +1,5 @@
 #pragma once
-#include "DrawableBlock.hpp"
+#include "DrawableObject.hpp"
 #include "Point2d.hpp"
 #include <memory>
 
@@ -16,12 +16,12 @@ class Fruit
 
     void Update();
     void Draw() const;
-    bool WasEaten(std::shared_ptr<DrawableBlock> object);
+    bool WasEaten(std::shared_ptr<DrawableObject> object);
 
   private:
     Point2D GenerateCoordinates() const;
     void CreateFruit(Point2D coord);
-    std::shared_ptr<DrawableBlock> m_pFruit;
+    std::shared_ptr<DrawableObject> m_pFruit;
     int m_MaxGenPosX;
     int m_MaxGenPosY;
     bool m_SnakeAteFruitFlag;

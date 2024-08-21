@@ -1,5 +1,5 @@
 #pragma once
-#include "DrawableBlock.hpp"
+#include "DrawableObject.hpp"
 
 namespace RSnakeGame
 {
@@ -10,7 +10,7 @@ namespace Collider
 namespace Rectangle
 {
 
-bool isCollisionDetected(DrawableBlock &rect1, DrawableBlock &rect2);
+bool isCollisionDetected(DrawableObject &rect1, DrawableObject &rect2);
 
 } // namespace Rectangle
 

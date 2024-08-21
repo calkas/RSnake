@@ -6,12 +6,17 @@ constexpr const char *TITLE{"RSnake"};
 
 namespace Texture
 {
-constexpr const char *PATH{"./Assets/Fonts/"};
+constexpr const char *PATH{"./Assets/Textures/"};
 constexpr const char *SNAKE_HEAD{"snake_head"};
 constexpr const char *SNAKE_BODY{"snake_body"};
 constexpr const char *SNAKE_TAIL{"snake_tail"};
 constexpr const char *FRUIT{"fruit"};
 constexpr const char *BOARD{"board"};
+constexpr const char *GRASS_1{"grass1"};
+constexpr const char *GRASS_2{"grass2"};
+
+constexpr const int DEFAULT_WIDTH{50};
+constexpr const int DEFAULT_HEIGHT{50};
 
 } // namespace Texture
 
@@ -23,8 +28,8 @@ constexpr const char *GLOBAL{"global"};
 
 namespace Resolution
 {
-constexpr int WIDTH{600};
-constexpr int HEIGHT{400};
+constexpr int WIDTH{800};
+constexpr int HEIGHT{700};
 } // namespace Resolution
 
 enum class Direction
@@ -33,12 +38,6 @@ enum class Direction
     DOWN,
     LEFT,
     RIGHT,
-};
-
-enum class BlockType
-{
-    FRUIT,
-    BOARD
 };
 
 enum class SnakeBlockType

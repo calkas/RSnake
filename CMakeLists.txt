@@ -17,6 +17,9 @@ find_package(OpenGL REQUIRED)
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/Assets/Fonts/
      DESTINATION ${CMAKE_BINARY_DIR}/Assets/Fonts/)
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/Assets/Textures/
+DESTINATION ${CMAKE_BINARY_DIR}/Assets/Textures/)
+
 add_subdirectory(Control)
 add_subdirectory(Drawable)
 add_subdirectory(Engine)

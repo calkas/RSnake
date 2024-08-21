@@ -1,14 +1,9 @@
 #include "Snake.hpp"
-#include "BlockFactory.hpp"
 #include "Collider.hpp"
-#include "DSnakeBody.hpp"
+#include "ObjectFactory.hpp"
 
 namespace RSnakeGame
 {
-
-static const int SNAKE_BLOCK_BODY_WIDTH = BlockFactory::Instance()->SIMPLE_BLOCK_WIDTH;
-static const int SNAKE_BLOCK_BODY_HEIGHT = BlockFactory::Instance()->SIMPLE_BLOCK_HEIGHT;
-
 Snake::Snake(int startPosX, int startPosY)
 {
     Create(Point2D{startPosX, startPosY});
@@ -21,27 +16,27 @@ Snake::~Snake()
 void Snake::AddBodyElement()
 {
     auto point = ConvertDirectionToVector(m_SnakeDir);
-    point.multiply(SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT);
+    point.multiply(Texture::DEFAULT_WIDTH, Texture::DEFAULT_HEIGHT);
     auto lastElementIterator = m_SnakeBody.end() - 1;
     // Remove tail
     m_SnakeBody.pop_back();
     Point2D last = (*lastElementIterator)->position;
 
     // Add body element + new tail element
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
-        SnakeBlockType::BODY, m_SnakeDir, last, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(ObjectFactory::Instance()->CreateSnakeBody(SnakeBlockType::BODY, last, Texture::DEFAULT_WIDTH,
+                                                                     Texture::DEFAULT_HEIGHT, 0, 1.0, 1.0));
 
     last = last + point;
 
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
-        SnakeBlockType::TAIL, m_SnakeDir, last, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(ObjectFactory::Instance()->CreateSnakeBody(SnakeBlockType::TAIL, last, Texture::DEFAULT_WIDTH,
+                                                                     Texture::DEFAULT_HEIGHT, 0, 1.0, 1.0));
 }
 
 void Snake::Update()
 {
     auto newPoint = GetHeadCoordinates();
     auto point = ConvertDirectionToVector(m_SnakeDir);
-    point.multiply(SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT);
+    point.multiply(Texture::DEFAULT_WIDTH, Texture::DEFAULT_HEIGHT);
     m_SnakeBody[0]->position = m_SnakeBody[0]->position + point;
 
     for (auto snakeTail = m_SnakeBody.begin() + 1; snakeTail != m_SnakeBody.end(); snakeTail++)
@@ -73,7 +68,7 @@ bool Snake::IsCollision()
     return false;
 }
 
-std::shared_ptr<DrawableBlock> Snake::GetHead() const
+std::shared_ptr<DrawableObject> Snake::GetHead() const
 {
     return m_SnakeBody[0];
 }
@@ -107,18 +102,18 @@ bool Snake::IsForbiddenMove(Direction newDir)
 
 void Snake::Create(Point2D point)
 {
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
-        SnakeBlockType::HEAD, m_SnakeDir, point, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(ObjectFactory::Instance()->CreateSnakeBody(
+        SnakeBlockType::HEAD, point, Texture::DEFAULT_WIDTH, Texture::DEFAULT_HEIGHT, 0, 1.0, 1.0));
 
-    point.x = point.x + SNAKE_BLOCK_BODY_WIDTH;
+    point.x = point.x + Texture::DEFAULT_WIDTH;
 
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
-        SnakeBlockType::BODY, m_SnakeDir, point, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(ObjectFactory::Instance()->CreateSnakeBody(
+        SnakeBlockType::BODY, point, Texture::DEFAULT_WIDTH, Texture::DEFAULT_HEIGHT, 0, 1.0, 1.0));
 
-    point.x = point.x + SNAKE_BLOCK_BODY_WIDTH;
+    point.x = point.x + Texture::DEFAULT_WIDTH;
 
-    m_SnakeBody.push_back(BlockFactory::Instance()->CreateSnakeBodyBlock(
-        SnakeBlockType::TAIL, m_SnakeDir, point, SNAKE_BLOCK_BODY_WIDTH, SNAKE_BLOCK_BODY_HEIGHT));
+    m_SnakeBody.push_back(ObjectFactory::Instance()->CreateSnakeBody(
+        SnakeBlockType::TAIL, point, Texture::DEFAULT_WIDTH, Texture::DEFAULT_HEIGHT, 0, 1.0, 1.0));
 }
 
 Point2D Snake::ConvertDirectionToVector(Direction snakeDir)
