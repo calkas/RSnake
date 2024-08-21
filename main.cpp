@@ -35,14 +35,16 @@ static void LoadResources()
 int main()
 {
     std::cout << "Welcome to Snake Game" << std::endl;
-    sf::RenderWindow renderWindow{sf::VideoMode(1024, 728), RSnakeGame::TITLE};
+    sf::RenderWindow renderWindow{
+        sf::VideoMode(RSnakeGame::Resolution::BOARD_WIDTH + 300, RSnakeGame::Resolution::BOARD_HEIGHT),
+        RSnakeGame::TITLE};
 
     LoadResources();
 
     RSnakeGame::ObjectFactory::Instance()->SetRenderer(&renderWindow);
-    RSnakeGame::Board gameBoard{RSnakeGame::Resolution::HEIGHT, RSnakeGame::Resolution::WIDTH};
-    RSnakeGame::Snake snake{RSnakeGame::Resolution::WIDTH / 2, RSnakeGame::Resolution::HEIGHT / 2};
-    RSnakeGame::Fruit fruit{RSnakeGame::Resolution::WIDTH - 2, RSnakeGame::Resolution::HEIGHT - 2};
+    RSnakeGame::Board gameBoard;
+    RSnakeGame::Snake snake{RSnakeGame::Resolution::BOARD_WIDTH / 2, RSnakeGame::Resolution::BOARD_HEIGHT / 2};
+    RSnakeGame::Fruit fruit{RSnakeGame::Resolution::BOARD_WIDTH - 2, RSnakeGame::Resolution::BOARD_HEIGHT - 2};
     RSnakeGame::ScoreBoard scoreBoard;
 
     std::unique_ptr<RSnakeGame::IControl> pControl = std::make_unique<RSnakeGame::InputControl>();

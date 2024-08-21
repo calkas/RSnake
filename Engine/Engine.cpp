@@ -129,12 +129,12 @@ void Engine::UserBoardUi()
     titleText.setString("RSnake Game");
     titleText.setCharacterSize(24);
     titleText.setFillColor(sf::Color::Magenta);
-    titleText.setPosition(m_rGameBoard.m_width + 10, 10);
+    titleText.setPosition(Resolution::BOARD_HEIGHT + 150, 10);
 
     scoreText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(m_rGameBoard.m_width + 10, m_rGameBoard.m_height - 50);
+    scoreText.setPosition(Resolution::BOARD_WIDTH + 50, Resolution::BOARD_HEIGHT - 50);
 
     m_rWindow.draw(titleText);
     m_rWindow.draw(scoreText);
@@ -148,7 +148,7 @@ void Engine::GameOverUi()
     gameOverText.setString("   Game Over   \n Your Score: " + std::to_string(m_rScoreBoard.GetScore()));
     gameOverText.setCharacterSize(28);
     gameOverText.setFillColor(sf::Color::Red);
-    gameOverText.setPosition((m_rGameBoard.m_width / 2) - 100, m_rGameBoard.m_height / 2);
+    gameOverText.setPosition((Resolution::BOARD_WIDTH / 2) - 100, Resolution::BOARD_HEIGHT / 2);
     if (font.has_value())
         gameOverText.setFont(*font.value());
     while (m_rWindow.isOpen())

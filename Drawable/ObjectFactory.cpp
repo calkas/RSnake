@@ -18,9 +18,10 @@ std::shared_ptr<DrawableObject> ObjectFactory::CreateFruit(Point2D coord, int w,
     return block;
 }
 
-std::shared_ptr<DrawableObject> ObjectFactory::CreateBoardBlock(Point2D coord, int w, int h, float rot, float scale)
+std::shared_ptr<DrawableObject> ObjectFactory::CreateBoardBlock(const char *pTextureName, Point2D coord, int w, int h,
+                                                                float rot, float scale)
 {
-    std::optional<std::shared_ptr<sf::Texture>> texture = ResourceManager::Instance()->GetTexture(Texture::GRASS_1);
+    std::optional<std::shared_ptr<sf::Texture>> texture = ResourceManager::Instance()->GetTexture(pTextureName);
     auto block = std::make_shared<DrawableObject>(coord, w, h, rot, scale, pRenderer);
     block->texture = texture;
     return block;

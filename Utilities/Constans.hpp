@@ -11,7 +11,6 @@ constexpr const char *SNAKE_HEAD{"snake_head"};
 constexpr const char *SNAKE_BODY{"snake_body"};
 constexpr const char *SNAKE_TAIL{"snake_tail"};
 constexpr const char *FRUIT{"fruit"};
-constexpr const char *BOARD{"board"};
 constexpr const char *GRASS_1{"grass1"};
 constexpr const char *GRASS_2{"grass2"};
 
@@ -28,8 +27,8 @@ constexpr const char *GLOBAL{"global"};
 
 namespace Resolution
 {
-constexpr int WIDTH{800};
-constexpr int HEIGHT{700};
+constexpr int BOARD_WIDTH{800};
+constexpr int BOARD_HEIGHT{700};
 } // namespace Resolution
 
 enum class Direction
