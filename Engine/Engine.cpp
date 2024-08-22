@@ -126,15 +126,24 @@ void Engine::UserBoardUi()
         scoreText.setFont(*font.value());
     }
 
+    auto texture = ResourceManager::Instance()->GetTexture(RSnakeGame::Texture::UI_FRAME);
+    if (texture.has_value())
+    {
+        sf::Sprite sprite;
+        sprite.setTexture(*texture.value());
+        sprite.setPosition(Resolution::BOARD_WIDTH + 30, 0);
+        m_rWindow.draw(sprite);
+    }
+
     titleText.setString("RSnake Game");
     titleText.setCharacterSize(24);
-    titleText.setFillColor(sf::Color::Magenta);
-    titleText.setPosition(Resolution::BOARD_HEIGHT + 150, 10);
+    titleText.setFillColor(sf::Color::Black);
+    titleText.setPosition(Resolution::BOARD_WIDTH + 100, 100);
 
     scoreText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
     scoreText.setCharacterSize(24);
-    scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(Resolution::BOARD_WIDTH + 50, Resolution::BOARD_HEIGHT - 50);
+    scoreText.setFillColor(sf::Color::Black);
+    scoreText.setPosition(Resolution::BOARD_WIDTH + 100, 200);
 
     m_rWindow.draw(titleText);
     m_rWindow.draw(scoreText);

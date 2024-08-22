@@ -36,7 +36,7 @@ int main()
 {
     std::cout << "Welcome to Snake Game" << std::endl;
     sf::RenderWindow renderWindow{
-        sf::VideoMode(RSnakeGame::Resolution::BOARD_WIDTH + 300, RSnakeGame::Resolution::BOARD_HEIGHT),
+        sf::VideoMode(RSnakeGame::Resolution::BOARD_WIDTH + 400, RSnakeGame::Resolution::BOARD_HEIGHT),
         RSnakeGame::TITLE};
 
     LoadResources();

@@ -13,6 +13,7 @@ constexpr const char *SNAKE_TAIL{"snake_tail"};
 constexpr const char *FRUIT{"fruit"};
 constexpr const char *GRASS_1{"grass1"};
 constexpr const char *GRASS_2{"grass2"};
+constexpr const char *UI_FRAME{"ui_frame"};
 
 constexpr const int DEFAULT_WIDTH{50};
 constexpr const int DEFAULT_HEIGHT{50};
