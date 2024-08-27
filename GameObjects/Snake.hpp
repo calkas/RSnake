@@ -11,8 +11,8 @@ namespace RSnakeGame
 class Snake
 {
   public:
-    Snake(int startPosX, int startPosY);
-    ~Snake();
+    explicit Snake(int startPosX, int startPosY);
+    ~Snake() = default;
 
     void AddBodyElement();
     void Update();

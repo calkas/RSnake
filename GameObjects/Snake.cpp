@@ -1,16 +1,11 @@
 #include "Snake.hpp"
 #include "Collider.hpp"
 #include "ObjectFactory.hpp"
-#include <iostream>
 namespace RSnakeGame
 {
 Snake::Snake(int startPosX, int startPosY)
 {
     Create(Point2D{startPosX, startPosY});
-}
-
-Snake::~Snake()
-{
 }
 
 void Snake::AddBodyElement()

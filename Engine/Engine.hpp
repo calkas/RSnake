@@ -23,8 +23,7 @@ class Engine
     explicit Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
                     std::unique_ptr<IControl> pControl);
     ~Engine() = default;
-    Engine() = delete;
-    void GameLoop();
+    void Run();
 
   private:
     void ProcessInput();

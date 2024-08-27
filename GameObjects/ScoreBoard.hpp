@@ -6,7 +6,6 @@ namespace RSnakeGame
 class ScoreBoard
 {
   public:
-    ScoreBoard() = default;
     void IncrementScore();
     unsigned int GetScore() const;
 

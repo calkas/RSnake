@@ -50,7 +50,7 @@ int main()
     std::unique_ptr<RSnakeGame::IControl> pControl = std::make_unique<RSnakeGame::InputControl>();
 
     RSnakeGame::Engine game(renderWindow, gameBoard, snake, fruit, scoreBoard, std::move(pControl));
-    game.GameLoop();
+    game.Run();
 
     return 0;
 }

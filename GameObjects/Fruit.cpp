@@ -22,10 +22,6 @@ Fruit::Fruit(int screenWidth, int screenHeight)
     CreateFruit(GenerateCoordinates());
 }
 
-Fruit::~Fruit()
-{
-}
-
 void Fruit::Update()
 {
     if (m_SnakeAteFruitFlag)

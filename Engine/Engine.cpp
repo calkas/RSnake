@@ -20,7 +20,7 @@ Engine::Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Frui
 {
 }
 
-void Engine::GameLoop()
+void Engine::Run()
 {
     float speed = 0.15;
     sf::Clock gameClock;

@@ -9,10 +9,8 @@ namespace RSnakeGame
 class Fruit
 {
   public:
-    Fruit(int maxGenPosX, int maxGenPosY);
-    // This destructor is needed
-    // https://developpaper.com/stdunique_-analysis-and-solution-of-error-reporting-using-incomplete-type-in-ptr/
-    ~Fruit();
+    explicit Fruit(int maxGenPosX, int maxGenPosY);
+    ~Fruit() = default;
 
     void Update();
     void Draw() const;
