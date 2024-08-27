@@ -8,6 +8,7 @@ class ScoreBoard
   public:
     void IncrementScore();
     unsigned int GetScore() const;
+    void Reset();
 
   private:
     unsigned int m_Score{0};

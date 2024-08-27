@@ -27,45 +27,46 @@ void Engine::Run()
     float previousTime = gameClock.getElapsedTime().asSeconds();
     float lag = 0.0;
 
-    while (m_rWindow.isOpen() && m_GameRunning)
+    while (m_rWindow.isOpen())
     {
-        float currentTime = gameClock.getElapsedTime().asSeconds();
-        float elapsedTime = currentTime - previousTime;
-        previousTime = currentTime;
-        lag += elapsedTime;
-
-        sf::Event event;
-        while (m_rWindow.pollEvent(event))
+        if (m_GameRunning)
         {
-            if (event.type == sf::Event::KeyPressed)
-            {
-                m_PauseFlag = false;
-                ProcessInput();
-            }
-            if (event.type == sf::Event::Closed)
-            {
-                m_rWindow.close();
-            }
-        }
+            float currentTime = gameClock.getElapsedTime().asSeconds();
+            float elapsedTime = currentTime - previousTime;
+            previousTime = currentTime;
+            lag += elapsedTime;
 
-        while (lag >= speed)
+            sf::Event event;
+            while (m_rWindow.pollEvent(event))
+            {
+                if (event.type == sf::Event::KeyPressed)
+                {
+                    m_PauseFlag = false;
+                    ProcessInput();
+                }
+                if (event.type == sf::Event::Closed)
+                {
+                    m_rWindow.close();
+                }
+            }
+
+            while (lag >= speed)
+            {
+                if (!m_PauseFlag)
+                {
+                    HandleObjectCollision();
+                    Update();
+                }
+                lag -= speed;
+            }
+            Render();
+        }
+        else
         {
-            if (!m_PauseFlag)
-            {
-                HandleObjectCollision();
-                Update();
-            }
-            lag -= speed;
+            GameOverUi();
         }
-        Render();
-    }
-
-    if (!m_GameRunning)
-    {
-        GameOverUi();
     }
 }
-
 void Engine::ProcessInput()
 {
     if (m_pControl->isUpPressed())
@@ -154,26 +155,35 @@ void Engine::GameOverUi()
 
     sf::Text gameOverText;
     auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
-    gameOverText.setString("   Game Over   \n Your Score: " + std::to_string(m_rScoreBoard.GetScore()));
+    gameOverText.setString("   Game Over   \n Your Score: " + std::to_string(m_rScoreBoard.GetScore()) +
+                           "\n Press Esc to reset the game");
     gameOverText.setCharacterSize(28);
     gameOverText.setFillColor(sf::Color::Red);
     gameOverText.setPosition((Resolution::BOARD_WIDTH / 2) - 100, Resolution::BOARD_HEIGHT / 2);
     if (font.has_value())
         gameOverText.setFont(*font.value());
-    while (m_rWindow.isOpen())
+    sf::Event event;
+    while (m_rWindow.pollEvent(event))
     {
-        sf::Event event;
-        while (m_rWindow.pollEvent(event))
+        if (event.type == sf::Event::KeyPressed)
         {
-            if (event.type == sf::Event::Closed)
+            if (event.key.code == sf::Keyboard::Key::Escape)
             {
-                m_rWindow.close();
+                m_PauseFlag = true;
+                m_GameRunning = true;
+                m_rSnake.Reset();
+                m_rScoreBoard.Reset();
             }
         }
-        m_rWindow.clear();
-        m_rGameBoard.Draw();
-        m_rWindow.draw(gameOverText);
-        m_rWindow.display();
+
+        if (event.type == sf::Event::Closed)
+        {
+            m_rWindow.close();
+        }
     }
+    m_rWindow.clear();
+    m_rGameBoard.Draw();
+    m_rWindow.draw(gameOverText);
+    m_rWindow.display();
 }
 } // namespace RSnakeGame

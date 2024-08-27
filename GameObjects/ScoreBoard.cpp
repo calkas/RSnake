@@ -15,4 +15,10 @@ unsigned int ScoreBoard::GetScore() const
 {
     return m_Score;
 }
+
+void ScoreBoard::Reset()
+{
+    m_Score = 0;
+    m_Factor = 1;
+}
 } // namespace RSnakeGame

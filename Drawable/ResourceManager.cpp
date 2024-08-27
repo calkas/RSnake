@@ -33,7 +33,6 @@ std::optional<std::shared_ptr<sf::Texture>> ResourceManager::GetTexture(std::str
     {
         return m_Textures.at(textureName.data());
     }
-
     return std::nullopt;
 }
 std::optional<std::shared_ptr<sf::Font>> ResourceManager::GetFont(std::string_view fontName) const

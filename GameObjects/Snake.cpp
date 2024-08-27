@@ -3,9 +3,9 @@
 #include "ObjectFactory.hpp"
 namespace RSnakeGame
 {
-Snake::Snake(int startPosX, int startPosY)
+Snake::Snake(int startPosX, int startPosY) : startingPoint{startPosX, startPosY}
 {
-    Create(Point2D{startPosX, startPosY});
+    Create(startingPoint);
 }
 
 void Snake::AddBodyElement()
@@ -117,6 +117,14 @@ void Snake::Move(Direction snakeDir)
     if (IsForbiddenMove(snakeDir))
         return;
     m_SnakeDir = snakeDir;
+}
+
+void Snake::Reset()
+{
+    m_SnakeBody.clear();
+    m_SnakeDir = Direction::LEFT;
+    m_onHoldFlag = true;
+    Create(startingPoint);
 }
 
 bool Snake::IsForbiddenMove(Direction newDir)
