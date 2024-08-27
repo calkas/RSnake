@@ -24,6 +24,16 @@ struct Point2D
         return {x + other.x, y + other.y};
     }
 
+    Point2D operator-(const Point2D &other)
+    {
+        return {x - other.x, y - other.y};
+    }
+
+    bool operator==(const Point2D &other)
+    {
+        return x == other.x && y == other.y;
+    }
+
     float x_f()
     {
         return static_cast<float>(x);

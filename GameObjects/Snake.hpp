@@ -22,6 +22,7 @@ class Snake
     void Move(Direction snakeDir);
 
   private:
+    std::shared_ptr<DrawableObject> GetTail() const;
     bool IsForbiddenMove(Direction newDir);
     void Create(Point2D point);
     Point2D GetHeadCoordinates() const;

@@ -1,7 +1,7 @@
 #include "Snake.hpp"
 #include "Collider.hpp"
 #include "ObjectFactory.hpp"
-
+#include <iostream>
 namespace RSnakeGame
 {
 Snake::Snake(int startPosX, int startPosY)
@@ -32,12 +32,37 @@ void Snake::AddBodyElement()
                                                                      Texture::DEFAULT_HEIGHT, 0, 1.0, 1.0));
 }
 
+float CalculateRotation(Point2D point)
+{
+    if (point.x == 0 && point.y == -1) // UP
+    {
+        return 90.0;
+    }
+    else if (point.x == 0 && point.y == 1) // DOWN
+    {
+        return 270.0;
+    }
+    else if (point.x == 1 && point.y == 0) // RIGHT
+    {
+        return 180.0;
+    }
+    else
+    {
+        return 0.0; // DEFAULT LEFT
+    }
+}
+
 void Snake::Update()
 {
     auto newPoint = GetHeadCoordinates();
     auto point = ConvertDirectionToVector(m_SnakeDir);
+
+    GetHead()->rotation = CalculateRotation(point);
+
     point.multiply(Texture::DEFAULT_WIDTH, Texture::DEFAULT_HEIGHT);
     m_SnakeBody[0]->position = m_SnakeBody[0]->position + point;
+
+    Point2D beforeTailA = (*(m_SnakeBody.end() - 2))->position;
 
     for (auto snakeTail = m_SnakeBody.begin() + 1; snakeTail != m_SnakeBody.end(); snakeTail++)
     {
@@ -45,6 +70,15 @@ void Snake::Update()
         (*snakeTail)->position = newPoint;
         newPoint = last;
     }
+
+    Point2D beforeTailB = (*(m_SnakeBody.end() - 2))->position;
+
+    Point2D diff = beforeTailB - beforeTailA;
+
+    diff.x = diff.x / Texture::DEFAULT_WIDTH;
+    diff.y = diff.y / Texture::DEFAULT_HEIGHT;
+
+    GetTail()->rotation = CalculateRotation(diff);
 }
 
 void Snake::Draw()
@@ -71,6 +105,11 @@ bool Snake::IsCollision()
 std::shared_ptr<DrawableObject> Snake::GetHead() const
 {
     return m_SnakeBody[0];
+}
+
+std::shared_ptr<DrawableObject> Snake::GetTail() const
+{
+    return (*(m_SnakeBody.end() - 1));
 }
 
 Point2D Snake::GetHeadCoordinates() const
