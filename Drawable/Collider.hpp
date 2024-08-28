@@ -10,7 +10,7 @@ namespace Collider
 namespace Rectangle
 {
 
-bool isCollisionDetected(DrawableObject &rect1, DrawableObject &rect2);
+bool isCollisionDetected(const DrawableObject &rect1, const DrawableObject &rect2);
 
 } // namespace Rectangle
 

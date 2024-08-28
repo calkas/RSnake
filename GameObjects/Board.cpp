@@ -2,16 +2,15 @@
 #include "Collider.hpp"
 #include "Constans.hpp"
 #include "ObjectFactory.hpp"
-#include <cassert>
 
 namespace RSnakeGame
 {
 Board::Board()
 {
-    CreateGameBoard();
+    CreateMap();
 }
 
-void Board::CreateGameBoard()
+void Board::CreateMap()
 {
     const int col = Resolution::BOARD_WIDTH / Texture::DEFAULT_WIDTH;
     const int row = Resolution::BOARD_HEIGHT / Texture::DEFAULT_HEIGHT;

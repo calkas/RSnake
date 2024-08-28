@@ -18,7 +18,6 @@ bool ResourceManager::LoadTexture(const std::filesystem::path &path, std::string
 }
 bool ResourceManager::LoadFont(std::filesystem::path &path, std::string_view fontName)
 {
-
     std::shared_ptr<sf::Font> font = std::make_shared<sf::Font>();
     if (!font->loadFromFile(path.string()))
         return false;
