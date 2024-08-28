@@ -121,9 +121,7 @@ void Engine::UserBoardUi()
     auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
     sf::Text scoreText;
     if (font.has_value())
-    {
         scoreText.setFont(*font.value());
-    }
 
     auto texture = ResourceManager::Instance()->GetTexture(RSnakeGame::Texture::UI_FRAME);
     if (texture.has_value())
@@ -135,24 +133,31 @@ void Engine::UserBoardUi()
     }
 
     scoreText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
-    scoreText.setCharacterSize(24);
-    scoreText.setFillColor(sf::Color::Black);
+    scoreText.setCharacterSize(Font::DEFAULT_SIZE);
+    sf::Color uiColor{UI_COLOR.r, UI_COLOR.g, UI_COLOR.b};
+    scoreText.setFillColor(uiColor);
     scoreText.setPosition(Resolution::BOARD_WIDTH + 100, 285);
     m_rWindow.draw(scoreText);
 }
 
 void Engine::GameOverUi()
 {
+    sf::Color uiColor{UI_COLOR.r, UI_COLOR.g, UI_COLOR.b};
+    sf::Sprite spriteGameOver;
+    spriteGameOver.setPosition((Resolution::BOARD_WIDTH / 2), Resolution::BOARD_HEIGHT / 2 - 200);
+    auto texture = ResourceManager::Instance()->GetTexture(RSnakeGame::Texture::UI_GAME_OVER);
+    if (texture.has_value())
+        spriteGameOver.setTexture(*texture.value());
 
     sf::Text gameOverText;
+    gameOverText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
+    gameOverText.setCharacterSize(Font::DEFAULT_SIZE);
+    gameOverText.setFillColor(uiColor);
+    gameOverText.setPosition((Resolution::BOARD_WIDTH / 2 + 120), Resolution::BOARD_HEIGHT / 2 - 10);
     auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
-    gameOverText.setString("   Game Over   \n Your Score: " + std::to_string(m_rScoreBoard.GetScore()) +
-                           "\n Press Esc to reset the game");
-    gameOverText.setCharacterSize(28);
-    gameOverText.setFillColor(sf::Color::Red);
-    gameOverText.setPosition((Resolution::BOARD_WIDTH / 2) - 100, Resolution::BOARD_HEIGHT / 2);
     if (font.has_value())
         gameOverText.setFont(*font.value());
+
     sf::Event event;
     while (m_rWindow.pollEvent(event))
     {
@@ -173,7 +178,7 @@ void Engine::GameOverUi()
         }
     }
     m_rWindow.clear();
-    m_rGameBoard.Draw();
+    m_rWindow.draw(spriteGameOver);
     m_rWindow.draw(gameOverText);
     m_rWindow.display();
 }

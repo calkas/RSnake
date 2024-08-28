@@ -26,15 +26,17 @@ static void LoadResources()
     for (const auto &entry : std::filesystem::directory_iterator(texturePath))
     {
         std::string fullname = entry.path().filename();
-        size_t lastindex = fullname.find_last_of(".");
-        std::string textureName = fullname.substr(0, lastindex);
+        size_t lastIndex = fullname.find_last_of(".");
+        std::string textureName = fullname.substr(0, lastIndex);
+        if (RSnakeGame::DEBUG_MODE)
+            std::cout << " * Loading texture: " << textureName << std::endl;
         RSnakeGame::ResourceManager::Instance()->LoadTexture(entry.path(), textureName);
     }
 }
 
 int main()
 {
-    std::cout << "Welcome to Snake Game" << std::endl;
+    std::cout << "..:: Welcome to Snake Game ::.." << std::endl;
     sf::RenderWindow renderWindow{
         sf::VideoMode(RSnakeGame::Resolution::BOARD_WIDTH + 400, RSnakeGame::Resolution::BOARD_HEIGHT),
         RSnakeGame::TITLE};
