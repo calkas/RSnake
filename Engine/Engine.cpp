@@ -119,11 +119,9 @@ void Engine::HandleObjectCollision()
 void Engine::UserBoardUi()
 {
     auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
-    sf::Text titleText;
     sf::Text scoreText;
     if (font.has_value())
     {
-        titleText.setFont(*font.value());
         scoreText.setFont(*font.value());
     }
 
@@ -136,17 +134,10 @@ void Engine::UserBoardUi()
         m_rWindow.draw(sprite);
     }
 
-    titleText.setString("RSnake Game");
-    titleText.setCharacterSize(24);
-    titleText.setFillColor(sf::Color::Black);
-    titleText.setPosition(Resolution::BOARD_WIDTH + 100, 100);
-
     scoreText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::Black);
-    scoreText.setPosition(Resolution::BOARD_WIDTH + 100, 200);
-
-    m_rWindow.draw(titleText);
+    scoreText.setPosition(Resolution::BOARD_WIDTH + 100, 285);
     m_rWindow.draw(scoreText);
 }
 
