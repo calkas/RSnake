@@ -1,9 +1,9 @@
 
 #include "Board.hpp"
 #include "Constans.hpp"
+#include "Controllable.hpp"
 #include "Engine.hpp"
 #include "Fruit.hpp"
-#include "IControl.hpp"
 #include "InputControl.hpp"
 #include "ObjectFactory.hpp"
 #include "ResourceManager.hpp"
@@ -49,7 +49,7 @@ int main()
     RSnakeGame::Fruit fruit{RSnakeGame::Resolution::BOARD_WIDTH - 2, RSnakeGame::Resolution::BOARD_HEIGHT - 2};
     RSnakeGame::ScoreBoard scoreBoard;
 
-    std::unique_ptr<RSnakeGame::IControl> pControl = std::make_unique<RSnakeGame::InputControl>();
+    std::unique_ptr<RSnakeGame::Controllable> pControl = std::make_unique<RSnakeGame::InputControl>();
 
     RSnakeGame::Engine game(renderWindow, gameBoard, snake, fruit, scoreBoard, std::move(pControl));
     game.Run();

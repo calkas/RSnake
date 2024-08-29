@@ -3,10 +3,10 @@
 namespace RSnakeGame
 {
 
-class IControl
+class Controllable
 {
   public:
-    virtual ~IControl() = default;
+    virtual ~Controllable() = default;
     virtual bool isUpPressed() const = 0;
     virtual bool isDownPressed() const = 0;
     virtual bool isLeftPressed() const = 0;

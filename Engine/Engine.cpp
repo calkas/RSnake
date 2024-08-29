@@ -1,8 +1,8 @@
 #include "Engine.hpp"
 #include "Board.hpp"
 #include "Constans.hpp"
+#include "Controllable.hpp"
 #include "Fruit.hpp"
-#include "IControl.hpp"
 #include "ResourceManager.hpp"
 #include "ScoreBoard.hpp"
 #include "Snake.hpp"
@@ -14,7 +14,7 @@ namespace RSnakeGame
 {
 
 Engine::Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
-               std::unique_ptr<IControl> pControl)
+               std::unique_ptr<Controllable> pControl)
     : m_rWindow(rGameWindow), m_rGameBoard(rBoard), m_rSnake(rSnake), m_rFruit(rFruit), m_rScoreBoard(rScoreBoard),
       m_pControl(std::move(pControl))
 {

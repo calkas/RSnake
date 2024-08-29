@@ -1,9 +1,9 @@
 #pragma once
-#include "IControl.hpp"
+#include "Controllable.hpp"
 
 namespace RSnakeGame
 {
-class InputControl : public IControl
+class InputControl : public Controllable
 {
   public:
     virtual bool isUpPressed() const override;

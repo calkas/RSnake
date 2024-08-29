@@ -13,7 +13,7 @@ class DrawableObject;
 class Board;
 class Snake;
 class Fruit;
-class IControl;
+class Controllable;
 class ScoreBoard;
 class ResourceManager;
 
@@ -21,7 +21,7 @@ class Engine
 {
   public:
     explicit Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
-                    std::unique_ptr<IControl> pControl);
+                    std::unique_ptr<Controllable> pControl);
     ~Engine() = default;
     void Run();
 
@@ -39,7 +39,7 @@ class Engine
     Snake &m_rSnake;
     Fruit &m_rFruit;
     ScoreBoard &m_rScoreBoard;
-    std::unique_ptr<IControl> m_pControl;
+    std::unique_ptr<Controllable> m_pControl;
     bool m_GameRunning{true};
     bool m_PauseFlag{true};
 };
