@@ -1,10 +1,9 @@
 #pragma once
-
 #include <memory>
+
 namespace sf
 {
 class RenderWindow;
-class Font;
 } // namespace sf
 
 namespace RSnakeGame
@@ -29,19 +28,18 @@ class Engine
     void ProcessInput();
     void Update();
     void Render();
-
+    void ResetGame();
     void HandleObjectCollision();
-    void GameOverUi();
-    void UserBoardUi();
+    void GameOver();
 
-    sf::RenderWindow &m_rWindow;
-    Board &m_rGameBoard;
-    Snake &m_rSnake;
-    Fruit &m_rFruit;
-    ScoreBoard &m_rScoreBoard;
-    std::unique_ptr<Controllable> m_pControl;
-    bool m_GameRunning{true};
-    bool m_PauseFlag{true};
+    sf::RenderWindow &rGameWindow;
+    Board &rGameBoard;
+    Snake &rSnake;
+    Fruit &rFruit;
+    ScoreBoard &rScoreBoard;
+    std::unique_ptr<Controllable> pController;
+    bool isGameRunning{true};
+    bool isPaused{true};
 };
 
 } // namespace RSnakeGame

@@ -9,14 +9,43 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include <string_view>
 
 namespace RSnakeGame
 {
 
+namespace UiHelper
+{
+void RenderText(sf::RenderWindow &rGameWindow, std::string &&text, Point2D position,
+                unsigned int size = Font::DEFAULT_SIZE)
+{
+    sf::Color UiColor{UI_RGB.r, UI_RGB.g, UI_RGB.b};
+    sf::Text uiText;
+    uiText.setString(text);
+    uiText.setCharacterSize(size);
+    uiText.setFillColor(UiColor);
+    uiText.setPosition(position.x_f(), position.y_f());
+    auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
+    if (font.has_value())
+        uiText.setFont(*font.value());
+    rGameWindow.draw(uiText);
+}
+
+void RenderUi(sf::RenderWindow &rGameWindow, const std::string_view textureName, Point2D position)
+{
+    sf::Sprite sprite;
+    sprite.setPosition(position.x_f(), position.y_f());
+    auto texture = ResourceManager::Instance()->GetTexture(textureName);
+    if (texture.has_value())
+        sprite.setTexture(*texture.value());
+    rGameWindow.draw(sprite);
+}
+} // namespace UiHelper
+
 Engine::Engine(sf::RenderWindow &rGameWindow, Board &rBoard, Snake &rSnake, Fruit &rFruit, ScoreBoard &rScoreBoard,
                std::unique_ptr<Controllable> pControl)
-    : m_rWindow(rGameWindow), m_rGameBoard(rBoard), m_rSnake(rSnake), m_rFruit(rFruit), m_rScoreBoard(rScoreBoard),
-      m_pControl(std::move(pControl))
+    : rGameWindow(rGameWindow), rGameBoard(rBoard), rSnake(rSnake), rFruit(rFruit), rScoreBoard(rScoreBoard),
+      pController(std::move(pControl))
 {
 }
 
@@ -27,9 +56,9 @@ void Engine::Run()
     float previousTime = gameClock.getElapsedTime().asSeconds();
     float lag = 0.0;
 
-    while (m_rWindow.isOpen())
+    while (rGameWindow.isOpen())
     {
-        if (m_GameRunning)
+        if (isGameRunning)
         {
             float currentTime = gameClock.getElapsedTime().asSeconds();
             float elapsedTime = currentTime - previousTime;
@@ -37,22 +66,22 @@ void Engine::Run()
             lag += elapsedTime;
 
             sf::Event event;
-            while (m_rWindow.pollEvent(event))
+            while (rGameWindow.pollEvent(event))
             {
                 if (event.type == sf::Event::KeyPressed)
                 {
-                    m_PauseFlag = false;
+                    isPaused = false;
                     ProcessInput();
                 }
                 if (event.type == sf::Event::Closed)
                 {
-                    m_rWindow.close();
+                    rGameWindow.close();
                 }
             }
 
             while (lag >= speed)
             {
-                if (!m_PauseFlag)
+                if (!isPaused)
                 {
                     HandleObjectCollision();
                     Update();
@@ -63,123 +92,89 @@ void Engine::Run()
         }
         else
         {
-            GameOverUi();
+            GameOver();
         }
     }
 }
 void Engine::ProcessInput()
 {
-    if (m_pControl->isUpPressed())
-        m_rSnake.Move(Direction::UP);
-    else if (m_pControl->isDownPressed())
-        m_rSnake.Move(Direction::DOWN);
-    else if (m_pControl->isLeftPressed())
-        m_rSnake.Move(Direction::LEFT);
-    else if (m_pControl->isRightPressed())
-        m_rSnake.Move(Direction::RIGHT);
+    if (pController->isUpPressed())
+        rSnake.Move(Direction::UP);
+    else if (pController->isDownPressed())
+        rSnake.Move(Direction::DOWN);
+    else if (pController->isLeftPressed())
+        rSnake.Move(Direction::LEFT);
+    else if (pController->isRightPressed())
+        rSnake.Move(Direction::RIGHT);
 }
 
 void Engine::Update()
 {
-    m_rSnake.Update();
-    m_rFruit.Update();
+    rSnake.Update();
+    rFruit.Update();
 }
 
 void Engine::Render()
 {
-    m_rWindow.clear();
+    rGameWindow.clear();
 
-    UserBoardUi();
+    UiHelper::RenderUi(rGameWindow, Texture::UI_FRAME, Point2D{Resolution::BOARD_WIDTH + 30, 0});
+    UiHelper::RenderText(rGameWindow, "Score: " + std::to_string(rScoreBoard.GetScore()),
+                         Point2D{Resolution::BOARD_WIDTH + 100, 285});
 
-    m_rGameBoard.Draw();
-    m_rSnake.Draw();
-    m_rFruit.Draw();
+    rGameBoard.Draw();
+    rSnake.Draw();
+    rFruit.Draw();
 
-    m_rWindow.display();
+    rGameWindow.display();
 }
 
 void Engine::HandleObjectCollision()
 {
-    const bool isBoardCollision = m_rGameBoard.IsCollision(m_rSnake.GetHead());
-    const bool isSnakeCollision = m_rSnake.IsCollision();
-
-    if (isBoardCollision || isSnakeCollision)
+    if (rGameBoard.IsCollision(rSnake.GetHead()) || rSnake.IsCollision())
     {
-        m_GameRunning = false;
+        isGameRunning = false;
         return;
     }
 
-    if (m_rFruit.WasEaten(m_rSnake.GetHead()))
+    if (rFruit.WasEaten(rSnake.GetHead()))
     {
-        m_rSnake.AddBodyElement();
-        m_rScoreBoard.IncrementScore();
+        rSnake.AddBodyElement();
+        rScoreBoard.IncrementScore();
     }
 }
 
-void Engine::UserBoardUi()
+void Engine::GameOver()
 {
-    auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
-    sf::Text scoreText;
-    if (font.has_value())
-        scoreText.setFont(*font.value());
-
-    auto texture = ResourceManager::Instance()->GetTexture(RSnakeGame::Texture::UI_FRAME);
-    if (texture.has_value())
-    {
-        sf::Sprite sprite;
-        sprite.setTexture(*texture.value());
-        sprite.setPosition(Resolution::BOARD_WIDTH + 30, 0);
-        m_rWindow.draw(sprite);
-    }
-
-    scoreText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
-    scoreText.setCharacterSize(Font::DEFAULT_SIZE);
-    sf::Color uiColor{UI_COLOR.r, UI_COLOR.g, UI_COLOR.b};
-    scoreText.setFillColor(uiColor);
-    scoreText.setPosition(Resolution::BOARD_WIDTH + 100, 285);
-    m_rWindow.draw(scoreText);
-}
-
-void Engine::GameOverUi()
-{
-    sf::Color uiColor{UI_COLOR.r, UI_COLOR.g, UI_COLOR.b};
-    sf::Sprite spriteGameOver;
-    spriteGameOver.setPosition((Resolution::BOARD_WIDTH / 2), Resolution::BOARD_HEIGHT / 2 - 200);
-    auto texture = ResourceManager::Instance()->GetTexture(RSnakeGame::Texture::UI_GAME_OVER);
-    if (texture.has_value())
-        spriteGameOver.setTexture(*texture.value());
-
-    sf::Text gameOverText;
-    gameOverText.setString("Score: " + std::to_string(m_rScoreBoard.GetScore()));
-    gameOverText.setCharacterSize(Font::DEFAULT_SIZE);
-    gameOverText.setFillColor(uiColor);
-    gameOverText.setPosition((Resolution::BOARD_WIDTH / 2 + 120), Resolution::BOARD_HEIGHT / 2 - 10);
-    auto font = ResourceManager::Instance()->GetFont(RSnakeGame::Font::GLOBAL);
-    if (font.has_value())
-        gameOverText.setFont(*font.value());
-
     sf::Event event;
-    while (m_rWindow.pollEvent(event))
+    while (rGameWindow.pollEvent(event))
     {
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Key::Escape)
-            {
-                m_PauseFlag = true;
-                m_GameRunning = true;
-                m_rSnake.Reset();
-                m_rScoreBoard.Reset();
-            }
+                ResetGame();
         }
 
         if (event.type == sf::Event::Closed)
-        {
-            m_rWindow.close();
-        }
+            rGameWindow.close();
     }
-    m_rWindow.clear();
-    m_rWindow.draw(spriteGameOver);
-    m_rWindow.draw(gameOverText);
-    m_rWindow.display();
+    rGameWindow.clear();
+
+    UiHelper::RenderUi(rGameWindow, Texture::UI_GAME_OVER,
+                       Point2D{(Resolution::BOARD_WIDTH / 2), Resolution::BOARD_HEIGHT / 2 - 200});
+
+    UiHelper::RenderText(rGameWindow, "Score: " + std::to_string(rScoreBoard.GetScore()),
+                         Point2D{(Resolution::BOARD_WIDTH / 2 + 120), Resolution::BOARD_HEIGHT / 2 - 10});
+
+    rGameWindow.display();
 }
+
+void Engine::ResetGame()
+{
+    isPaused = true;
+    isGameRunning = true;
+    rSnake.Reset();
+    rScoreBoard.Reset();
+}
+
 } // namespace RSnakeGame

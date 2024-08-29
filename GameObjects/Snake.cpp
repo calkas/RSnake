@@ -76,7 +76,7 @@ void Snake::Update()
     GetTail()->rotation = CalculateRotation(diff);
 }
 
-void Snake::Draw()
+void Snake::Draw() const
 {
     for (const auto &pBodyElement : m_SnakeBody)
     {
@@ -84,7 +84,7 @@ void Snake::Draw()
     }
 }
 
-bool Snake::IsCollision()
+bool Snake::IsCollision() const
 {
     for (auto bodyElementIt = m_SnakeBody.begin() + 1; bodyElementIt != m_SnakeBody.end(); bodyElementIt++)
     {

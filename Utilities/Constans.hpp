@@ -21,7 +21,7 @@ union RGBColor {
     }
 };
 
-constexpr RGBColor UI_COLOR{79, 70, 13};
+constexpr RGBColor UI_RGB{79, 70, 13};
 
 constexpr const char *TITLE{"RSnake"};
 

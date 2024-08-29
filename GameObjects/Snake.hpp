@@ -16,8 +16,8 @@ class Snake
 
     void AddBodyElement();
     void Update();
-    void Draw();
-    bool IsCollision();
+    void Draw() const;
+    bool IsCollision() const;
     std::shared_ptr<DrawableObject> GetHead() const;
     void Move(Direction snakeDir);
     void Reset();
